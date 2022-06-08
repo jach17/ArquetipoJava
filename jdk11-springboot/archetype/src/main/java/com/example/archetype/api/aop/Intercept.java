@@ -14,11 +14,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author guillermo.segura@axity.com
- *
  */
+
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PersistenceIntercept
+public @interface Intercept
 {
 
 }

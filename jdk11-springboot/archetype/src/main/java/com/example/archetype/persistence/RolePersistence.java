@@ -9,14 +9,12 @@ package com.example.archetype.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.archetype.api.aop.PersistenceIntercept;
 import com.example.archetype.model.RoleDO;
 
 /**
  * @author guillermo.segura@axity.com
  *
  */
-@PersistenceIntercept
 public interface RolePersistence extends JpaRepository<RoleDO, Long>
 {
 

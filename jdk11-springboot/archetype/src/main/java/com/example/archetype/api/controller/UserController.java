@@ -7,10 +7,6 @@
 // </summary>
 package com.example.archetype.api.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.archetype.api.aop.Intercept;
 import com.example.archetype.common.dto.UserDTO;
 import com.example.archetype.facade.UserFacade;
 
@@ -33,6 +30,7 @@ import com.example.archetype.facade.UserFacade;
  */
 @RestController
 @RequestMapping("/users")
+@Intercept
 public class UserController
 {
 
