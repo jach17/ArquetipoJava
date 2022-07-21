@@ -4,6 +4,30 @@ type Query {
 		firstName : String
 		email : String ) : [Employee]
 	employee(employeeNumber : ID) : Employee
+	employeesByExample(query : EmployeeQuery) : [Employee]
+}
+
+input EmployeeQuery {
+	employeeNumber: ID
+	lastName: String
+	firstName: String
+	extension: String
+	email: String
+	office: OfficeQuery
+	reportsTo: EmployeeQuery
+	jobTitle: String
+}
+
+input OfficeQuery {
+	officeCode: ID
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
 }
 
 type Employee {

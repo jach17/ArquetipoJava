@@ -13,6 +13,8 @@ import mx.com.axity.arquetipo.facade.EmployeeFacade;
 import mx.com.axity.arquetipo.service.EmployeeService;
 
 /**
+ * Implementación de la interface {@link mx.com.axity.arquetipo.facade.EmployeeFacade}
+ * 
  * @author guillermo.segura@axity.com
  */
 @Service
@@ -38,6 +40,15 @@ public class EmployeeFacadeImpl implements EmployeeFacade
   public EmployeeResponseDto getEmployeeById( @NotNull Long employeeNumber )
   {
     return this.employeeService.getEmployeeById( employeeNumber );
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<EmployeeResponseDto> getByExample( EmployeeResponseDto query )
+  {
+    return this.employeeService.getByExample( query );
   }
 
 }
