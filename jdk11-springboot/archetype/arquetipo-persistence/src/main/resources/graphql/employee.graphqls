@@ -1,0 +1,30 @@
+type Query {
+	employees(
+		lastName : String
+		firstName : String
+		email : String ) : [Employee]
+	employee(employeeNumber : ID) : Employee
+}
+
+type Employee {
+	employeeNumber: ID
+	lastName: String
+	firstName: String
+	extension: String
+	email: String
+	office: Office
+	reportsTo: Employee
+	jobTitle: String
+}
+
+type Office {
+	officeCode: ID
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
+}
