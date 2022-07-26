@@ -2,11 +2,10 @@ package mx.com.axity.arquetipo.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 
-import mx.com.axity.arquetipo.commons.response.graphql.EmployeeResponseDto;
-import mx.com.axity.arquetipo.commons.response.graphql.OfficeResponseDto;
+import mx.com.axity.arquetipo.commons.request.graphql.EmployeeQueryDto;
+import mx.com.axity.arquetipo.commons.response.graphql.EmployeeGraphQLDto;
+import mx.com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 import mx.com.axity.arquetipo.model.QEmployeeDO;
 import mx.com.axity.arquetipo.persistence.graphql.EmployeeGraphQLRepository;
 import mx.com.axity.arquetipo.service.EmployeeService;
+import mx.com.axity.arquetipo.service.helper.EmployeePredicate;
 import mx.com.axity.arquetipo.service.util.EmployeeResponseDtoTransformer;
 
 /**
@@ -32,50 +33,25 @@ public class EmployeeServiceImpl implements EmployeeService
   private EmployeeGraphQLRepository employeeGraphQLRepository;
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  public List<EmployeeResponseDto> getAllEmployees( String lastName, String firstName, String email )
-  {
-    var employee = QEmployeeDO.employeeDO;
-
-    var predicates = new ArrayList<Predicate>();
-    if( StringUtils.isNotBlank( lastName ) )
-    {
-      predicates.add( employee.lastName.containsIgnoreCase( lastName ) );
-    }
-
-    if( StringUtils.isNotBlank( firstName ) )
-    {
-      predicates.add( employee.firstName.containsIgnoreCase( firstName ) );
-    }
-
-    if( StringUtils.isNotBlank( email ) )
-    {
-      predicates.add( employee.email.containsIgnoreCase( email ) );
-    }
-
-    return processPredicate( predicates );
-  }
-
-  /**
    * @param predicates
+   * @param query
    * @return
    */
-  private List<EmployeeResponseDto> processPredicate( List<Predicate> predicates )
+  private List<EmployeeGraphQLDto> processPredicate( List<Predicate> predicates, EmployeeQueryDto query )
   {
-    var employees = new ArrayList<EmployeeResponseDto>();
+    var employees = new ArrayList<EmployeeGraphQLDto>();
 
     if( predicates.isEmpty() )
     {
       var result = this.employeeGraphQLRepository.findAll();
-      employees.addAll( result.stream().map( employeeDO -> EmployeeResponseDtoTransformer.transform( employeeDO ) )
-          .collect( Collectors.toList() ) );
+      employees
+          .addAll( result.stream().map( employeeDO -> EmployeeResponseDtoTransformer.transform( employeeDO, query ) )
+              .collect( Collectors.toList() ) );
     }
     else
     {
       var result = this.employeeGraphQLRepository.findAll( ExpressionUtils.allOf( predicates ) );
-      result.forEach( employeeDO -> employees.add( EmployeeResponseDtoTransformer.transform( employeeDO ) ) );
+      result.forEach( employeeDO -> employees.add( EmployeeResponseDtoTransformer.transform( employeeDO, query ) ) );
     }
 
     return employees;
@@ -85,22 +61,12 @@ public class EmployeeServiceImpl implements EmployeeService
    * {@inheritDoc}
    */
   @Override
-  public EmployeeResponseDto getEmployeeById( @NotNull Long employeeNumber )
-  {
-    var employeeDO = this.employeeGraphQLRepository.findById( employeeNumber ).orElse( null );
-    return EmployeeResponseDtoTransformer.transform( employeeDO );
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public List<EmployeeResponseDto> getByExample( EmployeeResponseDto query )
+  public List<EmployeeGraphQLDto> getByExample( EmployeeQueryDto query )
   {
     var employee = QEmployeeDO.employeeDO;
     var predicates = this.getEmployeePredicates( employee, query, true );
 
-    return this.processPredicate( predicates );
+    return this.processPredicate( predicates, query );
   }
 
   /**
@@ -108,48 +74,23 @@ public class EmployeeServiceImpl implements EmployeeService
    * @param reportsTo
    * @return
    */
-  private List<Predicate> getEmployeePredicates( QEmployeeDO employee, EmployeeResponseDto query,
+  private List<Predicate> getEmployeePredicates( QEmployeeDO employee, EmployeeQueryDto wrapper,
       boolean checkSupervisor )
   {
     var predicates = new ArrayList<Predicate>();
-    if( query != null )
+    if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
     {
-      if( StringUtils.isNotBlank( query.getLastName() ) )
-      {
-        predicates.add( employee.lastName.containsIgnoreCase( query.getLastName() ) );
-      }
+      EmployeePredicate.evaluateLastName( wrapper.getQuery().getLastName(), employee, predicates );
+      EmployeePredicate.evaluateFirstName( wrapper.getQuery().getFirstName(), employee, predicates );
+      EmployeePredicate.evaluateEmail( wrapper.getQuery().getEmail(), employee, predicates );
+      EmployeePredicate.evaluateJobTitle( wrapper.getQuery().getJobTitle(), employee, predicates );
+      EmployeePredicate.evaluateExtension( wrapper.getQuery().getExtension(), employee, predicates );
+      EmployeePredicate.evaluateEmployeeNumber( wrapper.getQuery().getEmployeeNumber(), employee, predicates );
 
-      if( StringUtils.isNotBlank( query.getFirstName() ) )
-      {
-        predicates.add( employee.firstName.containsIgnoreCase( query.getFirstName() ) );
-      }
+      predicates.addAll( this.getOfficePredicates( employee, wrapper.getQuery().getOffice() ) );
 
-      if( StringUtils.isNotBlank( query.getEmail() ) )
-      {
-        predicates.add( employee.email.containsIgnoreCase( query.getEmail() ) );
-      }
-
-      if( StringUtils.isNotBlank( query.getEmail() ) )
-      {
-        predicates.add( employee.email.containsIgnoreCase( query.getEmail() ) );
-      }
-
-      if( StringUtils.isNotBlank( query.getJobTitle() ) )
-      {
-        predicates.add( employee.jobTitle.containsIgnoreCase( query.getJobTitle() ) );
-      }
-
-      if( query.getEmployeeNumber() != null )
-      {
-        predicates.add( employee.employeeNumber.eq( query.getEmployeeNumber() ) );
-      }
-
-      predicates.addAll( this.getOfficePredicates( employee, query.getOffice() ) );
-
-      if( checkSupervisor )
-      {
-        predicates.addAll( this.getEmployeePredicates( employee, query.getReportsTo(), false ) );
-      }
+      var supervisorWrapper = new EmployeeQueryDto( wrapper.getQuery().getReportsTo() );
+      evaluateSupervisor( employee, supervisorWrapper, checkSupervisor, predicates );
     }
 
     return predicates;
@@ -157,50 +98,38 @@ public class EmployeeServiceImpl implements EmployeeService
 
   /**
    * @param employee
+   * @param query
+   * @param checkSupervisor
+   * @param predicates
+   */
+  private void evaluateSupervisor( QEmployeeDO employee, EmployeeQueryDto wrapper, boolean checkSupervisor,
+      ArrayList<Predicate> predicates )
+  {
+    if( checkSupervisor )
+    {
+      predicates.addAll( this.getEmployeePredicates( employee, wrapper, false ) );
+    }
+  }
+
+  /**
+   * @param employee
    * @param office
    * @return
    */
-  private List<Predicate> getOfficePredicates( QEmployeeDO employee, OfficeResponseDto office )
+  private List<Predicate> getOfficePredicates( QEmployeeDO employee, OfficeGraphQLDto office )
   {
     var predicates = new ArrayList<Predicate>();
     if( office != null )
     {
-      if( StringUtils.isNotBlank( office.getOfficeCode() ) )
-      {
-        predicates.add( employee.office.officeCode.eq( office.getOfficeCode() ) );
-      }
-      if( StringUtils.isNotBlank( office.getCity() ) )
-      {
-        predicates.add( employee.office.city.containsIgnoreCase( office.getCity() ) );
-      }
-      if( StringUtils.isNotBlank( office.getPhone() ) )
-      {
-        predicates.add( employee.office.phone.containsIgnoreCase( office.getPhone() ) );
-      }
-      if( StringUtils.isNotBlank( office.getAddressLine1() ) )
-      {
-        predicates.add( employee.office.addressLine1.containsIgnoreCase( office.getAddressLine1() ) );
-      }
-      if( StringUtils.isNotBlank( office.getAddressLine2() ) )
-      {
-        predicates.add( employee.office.addressLine2.containsIgnoreCase( office.getAddressLine2() ) );
-      }
-      if( StringUtils.isNotBlank( office.getState() ) )
-      {
-        predicates.add( employee.office.state.containsIgnoreCase( office.getState() ) );
-      }
-      if( StringUtils.isNotBlank( office.getCountry() ) )
-      {
-        predicates.add( employee.office.country.containsIgnoreCase( office.getCountry() ) );
-      }
-      if( StringUtils.isNotBlank( office.getPostalCode() ) )
-      {
-        predicates.add( employee.office.postalCode.containsIgnoreCase( office.getPostalCode() ) );
-      }
-      if( StringUtils.isNotBlank( office.getTerritory() ) )
-      {
-        predicates.add( employee.office.territory.containsIgnoreCase( office.getTerritory() ) );
-      }
+      EmployeePredicate.evaluateOfficeOfficeCode( office.getOfficeCode(), employee, predicates );
+      EmployeePredicate.evaluateOfficeCity( office.getCity(), employee, predicates );
+      EmployeePredicate.evaluateOfficePhone( office.getPhone(), employee, predicates );
+      EmployeePredicate.evaluateOfficeAddressLine1( office.getAddressLine1(), employee, predicates );
+      EmployeePredicate.evaluateOfficeAddressLine2( office.getAddressLine2(), employee, predicates );
+      EmployeePredicate.evaluateOfficeState( office.getState(), employee, predicates );
+      EmployeePredicate.evaluateOfficeCountry( office.getCountry(), employee, predicates );
+      EmployeePredicate.evaluateOfficePostalCode( office.getPostalCode(), employee, predicates );
+      EmployeePredicate.evaluateOfficeTerritory( office.getTerritory(), employee, predicates );
     }
     return predicates;
   }

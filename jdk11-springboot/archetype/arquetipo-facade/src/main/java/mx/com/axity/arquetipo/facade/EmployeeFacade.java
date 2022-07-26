@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import mx.com.axity.arquetipo.commons.response.graphql.EmployeeResponseDto;
+import graphql.schema.DataFetchingEnvironment;
+import mx.com.axity.arquetipo.commons.response.graphql.EmployeeGraphQLDto;
 
 /**
  * Interface fachada de empleados
@@ -20,24 +21,27 @@ public interface EmployeeFacade
    * @param lastName
    * @param firstName
    * @param email
+   * @param env
    * @return
    */
-  List<EmployeeResponseDto> getAllEmployees( String lastName, String firstName, String email );
+  List<EmployeeGraphQLDto> getAllEmployees( String lastName, String firstName, String email, DataFetchingEnvironment env );
 
   /**
    * Busca los empleados por número de empleados
    * 
    * @param employeeNumber
+   * @param env
    * @return
    */
-  EmployeeResponseDto getEmployeeById( @NotNull Long employeeNumber );
+  EmployeeGraphQLDto getEmployeeById( @NotNull Long employeeNumber, DataFetchingEnvironment env );
 
   /**
    * Busca los empleados por ejemplo
    * 
    * @param query
+   * @param env
    * @return
    */
-  List<EmployeeResponseDto> getByExample( EmployeeResponseDto query );
+  List<EmployeeGraphQLDto> getByExample( EmployeeGraphQLDto query, DataFetchingEnvironment env );
 
 }

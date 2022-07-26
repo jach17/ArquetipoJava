@@ -14,12 +14,6 @@
       <groupId>mx.com.axity</groupId>
       <artifactId>arquetipo-service</artifactId>
       <version>${project.parent.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>mx.com.axity</groupId>
-          <artifactId>arquetipo-persistence</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 </project>

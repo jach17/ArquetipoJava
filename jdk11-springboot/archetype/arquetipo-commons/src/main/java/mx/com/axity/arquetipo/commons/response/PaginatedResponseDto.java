@@ -34,6 +34,7 @@ public class PaginatedResponseDto<T extends Serializable> implements Serializabl
    */
   public PaginatedResponseDto()
   {
+    this.header = new HeaderDto();
   }
 
   /**
@@ -45,6 +46,7 @@ public class PaginatedResponseDto<T extends Serializable> implements Serializabl
    */
   public PaginatedResponseDto( long page, long size, long registries )
   {
+    this.header = new HeaderDto();
     this.page = page;
     this.size = size;
     this.registries = registries;

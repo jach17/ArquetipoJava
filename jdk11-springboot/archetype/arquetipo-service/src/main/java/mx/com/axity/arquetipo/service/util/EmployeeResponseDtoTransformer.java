@@ -1,6 +1,10 @@
 package mx.com.axity.arquetipo.service.util;
 
-import mx.com.axity.arquetipo.commons.response.graphql.EmployeeResponseDto;
+import java.util.ArrayList;
+
+import mx.com.axity.arquetipo.commons.request.graphql.EmployeeQueryDto;
+import mx.com.axity.arquetipo.commons.response.graphql.CustomerGraphlQLDto;
+import mx.com.axity.arquetipo.commons.response.graphql.EmployeeGraphQLDto;
 import mx.com.axity.arquetipo.model.EmployeeDO;
 
 /**
@@ -11,35 +15,49 @@ public final class EmployeeResponseDtoTransformer
   private EmployeeResponseDtoTransformer()
   {
   }
+
   /**
    * Transforma una entidad {@link mx.com.axity.arquetipo.model.EmployeeDO} en un dto
-   * {@link mx.com.axity.arquetipo.commons.response.graphql.EmployeeResponseDto}
+   * {@link mx.com.axity.arquetipo.commons.response.graphql.EmployeeGraphQLDto}
    * 
    * @param entity
+   * @param query
    * @return
    */
-  public static EmployeeResponseDto transform( EmployeeDO entity )
+  public static EmployeeGraphQLDto transform( EmployeeDO entity, EmployeeQueryDto query )
   {
-    return transform( entity, true );
+    return transform( entity, query, true );
   }
 
-  private static EmployeeResponseDto transform( EmployeeDO entity, boolean checkSupervisor )
+  private static EmployeeGraphQLDto transform( EmployeeDO entity, EmployeeQueryDto query, boolean checkSupervisor )
   {
-    EmployeeResponseDto dto = null;
+    EmployeeGraphQLDto dto = null;
     if( entity != null )
     {
-      dto = new EmployeeResponseDto();
+      dto = new EmployeeGraphQLDto();
       dto.setEmployeeNumber( entity.getEmployeeNumber() );
       dto.setLastName( entity.getLastName() );
       dto.setFirstName( entity.getFirstName() );
       dto.setExtension( entity.getExtension() );
       dto.setEmail( entity.getEmail() );
       dto.setJobTitle( entity.getJobTitle() );
-      if( checkSupervisor )
+      if( checkSupervisor && query.isReportsToProjection() )
       {
-        dto.setReportsTo( transform( entity.getReportsTo(), false ) );
+        var wrapperSupervisor = new EmployeeQueryDto();
+        dto.setReportsTo( transform( entity.getReportsTo(), wrapperSupervisor, false ) );
       }
-      dto.setOffice( OfficeResponseDtoTransformer.transform( entity.getOffice() ) );
+
+      if( query.isOfficeProjection() )
+      {
+        dto.setOffice( OfficeGraphQLDtoTransformer.transform( entity.getOffice() ) );
+      }
+
+      if( query.isCustomersProjection() )
+      {
+        var customers = new ArrayList<CustomerGraphlQLDto>();
+        entity.getCustomers().forEach( x -> customers.add( CustomerGraphQLDtoTransformer.transform( x ) ) );
+        dto.setCustomers( customers );
+      }
     }
     return dto;
   }

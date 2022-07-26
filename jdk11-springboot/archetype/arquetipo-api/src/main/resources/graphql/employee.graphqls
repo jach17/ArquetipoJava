@@ -39,6 +39,7 @@ type Employee {
 	office: Office
 	reportsTo: Employee
 	jobTitle: String
+	customers: [Customer]
 }
 
 type Office {
@@ -51,4 +52,20 @@ type Office {
 	country: String
 	postalCode: String
 	territory: String
+}
+
+type Customer {
+	customerNumber: ID
+	customerName: String
+	contactLastName: String
+	contactFirstName: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	city: String
+	state: String
+	postalCode: String
+	country: String
+	salesRepEmployee: Int
+	creditLimit: Float
 }

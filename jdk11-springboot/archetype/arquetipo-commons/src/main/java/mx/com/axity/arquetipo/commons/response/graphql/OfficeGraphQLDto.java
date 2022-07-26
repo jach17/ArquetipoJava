@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class OfficeResponseDto
+public class OfficeGraphQLDto
 {
   private String officeCode;
   private String city;

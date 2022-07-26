@@ -15,11 +15,6 @@
       <artifactId>arquetipo-persistence</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
-    <dependency>
-      <groupId>mx.com.axity</groupId>
-      <artifactId>arquetipo-commons</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
   </dependencies>
 
 </project>

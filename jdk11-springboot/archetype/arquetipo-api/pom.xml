@@ -7,40 +7,31 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>arquetipo-api</artifactId>
+  
+  <profiles>
+    <profile>
+        <id>dev</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <spring.profiles.active>dev</spring.profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>prod</id>
+        <properties>
+            <spring.profiles.active>prod</spring.profiles.active>
+        </properties>
+    </profile>
+</profiles>
+  
 
   <dependencies>
     <dependency>
       <groupId>mx.com.axity</groupId>
       <artifactId>arquetipo-facade</artifactId>
       <version>${project.parent.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>mx.com.axity</groupId>
-          <artifactId>arquetipo-service</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>mx.com.axity</groupId>
-      <artifactId>arquetipo-service</artifactId>
-      <version>${project.parent.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>mx.com.axity</groupId>
-          <artifactId>arquetipo-persistence</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>mx.com.axity</groupId>
-      <artifactId>arquetipo-persistence</artifactId>
-      <version>${project.parent.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>mx.com.axity</groupId>
-          <artifactId>arquetipo-commons</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 </project>

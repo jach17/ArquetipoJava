@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import mx.com.axity.arquetipo.commons.enums.ErrorCode;
 import mx.com.axity.arquetipo.commons.exception.BusinessException;
+import mx.com.axity.arquetipo.commons.exception.ValidationException;
 import mx.com.axity.arquetipo.commons.response.GenericResponseDto;
 import mx.com.axity.arquetipo.commons.response.HeaderDto;
 
@@ -45,6 +46,16 @@ public class JsonResponseHandlerInterceptor implements HandlerInterceptor
     {
       LOG.debug( "{}", pjp.toLongString() );
       result = pjp.proceed();
+    }
+    catch (ValidationException e) {
+      LOG.error( e.getMessage(), e );
+
+      var genericResponse = new GenericResponseDto<>();
+      var header = new HeaderDto();
+      header.setMessage( this.env.getProperty( String.format( "arquetipo.error.%d", e.getCode() ) ) );
+      header.setCode( e.getCode() );
+      genericResponse.setHeader( header );
+      result = new ResponseEntity<>( genericResponse, HttpStatus.BAD_REQUEST );
     }
     catch( BusinessException e )
     {

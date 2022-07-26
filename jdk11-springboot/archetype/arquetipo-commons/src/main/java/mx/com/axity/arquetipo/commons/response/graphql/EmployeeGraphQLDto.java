@@ -1,5 +1,7 @@
 package mx.com.axity.arquetipo.commons.response.graphql;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class EmployeeResponseDto
+public class EmployeeGraphQLDto
 {
     private Long employeeNumber;
     private String lastName;
@@ -17,14 +19,7 @@ public class EmployeeResponseDto
     private String extension;
     private String email;
     private String jobTitle;
-    private EmployeeResponseDto reportsTo;
-    private OfficeResponseDto office;
-//  employeeNumber: ID
-//  lastName: String
-//  firstName: String
-//  extension: String
-//  email: String
-//  office: Office
-//  reportsTo: Employee
-//  jobTitle: String
+    private EmployeeGraphQLDto reportsTo;
+    private OfficeGraphQLDto office;
+    private List<CustomerGraphlQLDto> customers;
 }

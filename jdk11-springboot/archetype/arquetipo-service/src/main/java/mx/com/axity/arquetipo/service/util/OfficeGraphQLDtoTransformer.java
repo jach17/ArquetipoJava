@@ -1,31 +1,31 @@
 package mx.com.axity.arquetipo.service.util;
 
-import mx.com.axity.arquetipo.commons.response.graphql.OfficeResponseDto;
+import mx.com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 import mx.com.axity.arquetipo.model.OfficeDO;
 
 /**
  * @author guillermo.segura@axity.com
  */
-public final class OfficeResponseDtoTransformer
+public final class OfficeGraphQLDtoTransformer
 {
-  private OfficeResponseDtoTransformer()
+  private OfficeGraphQLDtoTransformer()
   {
   }
 
   /**
    * Transforma una entidad {@link mx.com.axity.arquetipo.model.OfficeDO} en un dto
-   * {@link mx.com.axity.arquetipo.commons.response.graphql.OfficeResponseDto}
+   * {@link mx.com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto}
    * 
    * @param entity
    * @return
    */
-  public static OfficeResponseDto transform( OfficeDO entity )
+  public static OfficeGraphQLDto transform( OfficeDO entity )
   {
-    OfficeResponseDto office = null;
+    OfficeGraphQLDto office = null;
 
     if( entity != null )
     {
-      office = new OfficeResponseDto();
+      office = new OfficeGraphQLDto();
       office.setOfficeCode( entity.getOfficeCode() );
       office.setCity( entity.getCity() );
       office.setPhone( entity.getPhone() );

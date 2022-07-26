@@ -1,0 +1,90 @@
+spring:
+  profiles:
+    active:
+    - local
+
+dozer:
+  mapping-files:
+  - classpath:mappings/office-mappings.xml
+  
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  application:
+    name: Arquetipo de Spring Boot
+  jpa:
+    database: default
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  graphql:
+    path: /graphql
+    schema:
+      printer:
+        enabled: true
+      locations:
+      - classpath:graphql/
+    graphiql:
+      enabled: true
+      
+---
+
+server:
+  port: 9090
+  servlet:
+    context-path: /
+    
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  application:
+    name: Arquetipo de Spring Boot
+  jpa:
+    database: default
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:tcp://127.0.0.1/~/test
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  graphql:
+    path: /graphql
+    schema:
+      printer:
+        enabled: true
+      locations:
+      - classpath:graphql/
+    graphiql:
+      enabled: true

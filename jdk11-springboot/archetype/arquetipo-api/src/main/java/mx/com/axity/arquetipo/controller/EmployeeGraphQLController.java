@@ -9,7 +9,8 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import mx.com.axity.arquetipo.commons.response.graphql.EmployeeResponseDto;
+import graphql.schema.DataFetchingEnvironment;
+import mx.com.axity.arquetipo.commons.response.graphql.EmployeeGraphQLDto;
 import mx.com.axity.arquetipo.facade.EmployeeFacade;
 
 /**
@@ -33,11 +34,10 @@ public class EmployeeGraphQLController
    * @return
    */
   @QueryMapping(name = "employees")
-  public List<EmployeeResponseDto> getAllEmployees( @Argument String lastName, @Argument String firstName,
-      @Argument String email )
+  public List<EmployeeGraphQLDto> getAllEmployees( @Argument String lastName, @Argument String firstName,
+      @Argument String email, DataFetchingEnvironment env )
   {
-
-    return this.employeeFacade.getAllEmployees( lastName, firstName, email );
+    return this.employeeFacade.getAllEmployees( lastName, firstName, email, env );
   }
 
   /**
@@ -47,10 +47,10 @@ public class EmployeeGraphQLController
    * @return
    */
   @QueryMapping(name = "employee")
-  public EmployeeResponseDto getEmployeeById( @Argument
-  @NotNull Long employeeNumber )
+  public EmployeeGraphQLDto getEmployeeById( @Argument
+  @NotNull Long employeeNumber, DataFetchingEnvironment env )
   {
-    return this.employeeFacade.getEmployeeById( employeeNumber );
+    return this.employeeFacade.getEmployeeById( employeeNumber, env );
   }
 
   /**
@@ -60,9 +60,10 @@ public class EmployeeGraphQLController
    * @return
    */
   @QueryMapping(name = "employeesByExample")
-  public List<EmployeeResponseDto> getAllEmployeesByExample( @Argument EmployeeResponseDto query )
+  public List<EmployeeGraphQLDto> getAllEmployeesByExample( @Argument EmployeeGraphQLDto query,
+      DataFetchingEnvironment env )
   {
-    return this.employeeFacade.getByExample( query );
+    return this.employeeFacade.getByExample( query, env );
   }
 
 }
