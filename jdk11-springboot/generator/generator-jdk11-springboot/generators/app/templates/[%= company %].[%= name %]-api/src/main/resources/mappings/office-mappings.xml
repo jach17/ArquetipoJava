@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
+  <mapping>
+    <class-a>mx.com.axity.arquetipo.commons.dto.OfficeDto</class-a>
+    <class-b>mx.com.axity.arquetipo.model.OfficeDO</class-b>
+    <field>
+      <a>officeCode</a>
+      <b>officeCode</b>
+    </field>
+    <field>
+      <a>city</a>
+      <b>city</b>
+    </field>
+    <field>
+      <a>phone</a>
+      <b>phone</b>
+    </field>
+    <field>
+      <a>addressLine1</a>
+      <b>addressLine1</b>
+    </field>
+    <field>
+      <a>addressLine2</a>
+      <b>addressLine2</b>
+    </field>
+    <field>
+      <a>state</a>
+      <b>state</b>
+    </field>
+    <field>
+      <a>country</a>
+      <b>country</b>
+    </field>
+    <field>
+      <a>postalCode</a>
+      <b>postalCode</b>
+    </field>
+    <field>
+      <a>territory</a>
+      <b>territory</b>
+    </field>
+  </mapping>
+</mappings>

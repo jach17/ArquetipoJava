@@ -1,0 +1,25 @@
+{
+  "name": "generator-jdk11-springboot",
+  "version": "1.0.0",
+  "description": "Proyecto generador de Spring Boot + jdk11",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Axitymx/java-archetype.git"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  },
+  "author": "Guillermo Segura Olivera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Axitymx/java-archetype/issues"
+  },
+  "homepage": "https://github.com/Axitymx/java-archetype#readme"
+}
