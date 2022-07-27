@@ -136,11 +136,11 @@
   </build>
 
   <modules>
-    <module>[%= name %]-commons</module>
-    <module>[%= name %]-model</module>
-    <module>[%= name %]-persistence</module>
-    <module>[%= name %]-service</module>
-    <module>[%= name %]-facade</module>
-    <module>[%= name %]-api</module>
+    <module>[%= company %].[%= name %]-commons</module>
+    <module>[%= company %].[%= name %]-model</module>
+    <module>[%= company %].[%= name %]-persistence</module>
+    <module>[%= company %].[%= name %]-service</module>
+    <module>[%= company %].[%= name %]-facade</module>
+    <module>[%= company %].[%= name %]-api</module>
   </modules>
 </project>

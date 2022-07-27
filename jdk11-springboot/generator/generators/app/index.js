@@ -64,15 +64,13 @@ module.exports = class extends Generator {
           );
         done();
     }
-
 /*
     install() {
         var done = this.async();
-        this.spawnCommand('mvn',['test'], {'cwd':`${this.props.name.toLowerCase()}-service/`})
+        this.spawnCommand('mvn','clean','package', {'cwd':`${this.props.name.toLowerCase()}-service/`})
         .on('error', function(err) {
             done(err);
         })
     }
 */
-
 };

@@ -1,8 +1,8 @@
 package com.[%= company %].[%= name %].controller;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,13 +15,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import lombok.extern.slf4j.Slf4j;
 import com.[%= company %].[%= name %].commons.dto.OfficeDto;
 import com.[%= company %].[%= name %].commons.request.PaginatedRequestDto;
+import com.[%= company %].[%= name %].commons.response.GenericResponseDto;
 import com.[%= company %].[%= name %].commons.response.PaginatedResponseDto;
 import com.[%= company %].[%= name %].facade.OfficeFacade;
 
@@ -73,7 +78,7 @@ class OfficeControllerTest
    * Test method for {@link com.[%= company %].[%= name %].controller.OfficeController#findOffice(java.lang.String)}.
    */
   @Test
-  void testFindOffice()
+  void testFindOffice() throws Exception
   {
     var office = this.createOffice( 1 );
     var generic = new GenericResponseDto<>(office);
@@ -92,7 +97,7 @@ class OfficeControllerTest
    * {@link com.[%= company %].[%= name %].controller.OfficeController#create(com.[%= company %].[%= name %].commons.dto.OfficeDto)}.
    */
   @Test
-  void testCreate()
+  void testCreate() throws Exception
   {
     var office = this.createOffice( 9 );
     var generic = new GenericResponseDto<>(office);
@@ -116,7 +121,7 @@ class OfficeControllerTest
    * {@link com.[%= company %].[%= name %].controller.OfficeController#update(java.lang.String, com.[%= company %].[%= name %].commons.dto.OfficeDto)}.
    */
   @Test
-  void testUpdate()
+  void testUpdate() throws Exception
   {
     var office = this.createOffice( 1 );
     var generic = new GenericResponseDto<>(true);
@@ -139,7 +144,7 @@ class OfficeControllerTest
    * Test method for {@link com.[%= company %].[%= name %].controller.OfficeController#delete(java.lang.String)}.
    */
   @Test
-  void testDelete()
+  void testDelete() throws Exception
   {
     var generic = new GenericResponseDto<>(true);
     when(this.officeFacade.delete( anyString() )).thenReturn( generic );

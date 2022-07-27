@@ -3,8 +3,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
   <mapping>
-    <class-a>mx.com.axity.arquetipo.commons.dto.OfficeDto</class-a>
-    <class-b>mx.com.axity.arquetipo.model.OfficeDO</class-b>
+    <class-a>com.[%= company %].[%= name %].commons.dto.OfficeDto</class-a>
+    <class-b>com.[%= company %].[%= name %].model.OfficeDO</class-b>
     <field>
       <a>officeCode</a>
       <b>officeCode</b>
