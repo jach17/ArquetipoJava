@@ -10,8 +10,8 @@
   <artifactId>[%= name %]</artifactId>
   <version>0.0.1</version>
   <packaging>pom</packaging>
-  <name>Proyecto Base de SpringBoot</name>
-  <description>Proyecto Base de Spring Boot</description>
+  <name>Arquetipo Base de SpringBoot</name>
+  <description>Arquetipo Base de Spring Boot</description>
 
   <properties>
     <java.version>11</java.version>
@@ -116,11 +116,13 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
