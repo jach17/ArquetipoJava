@@ -1,23 +1,7 @@
 spring:
-  profiles:
-    active:
-    - @spring.profiles.active@
-
-dozer:
-  mapping-files:
-  - classpath:mappings/office-mappings.xml
-  
-server:
-  port: 8080
-  servlet:
-    context-path: /
-    
----
-
-spring:
   config:
     activate:
-      on-profile: local
+      on-profile: production
 
   application:
     name: Arquetipo de Spring Boot

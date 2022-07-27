@@ -112,7 +112,7 @@ public class OfficeController
    * @return
    */
   @JsonResponseInterceptor
-  @DeleteMapping(path = "/{officeCode}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(path = "/{officeCode}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Elimina una oficina", summary = "Elimina una oficina")
   public ResponseEntity<GenericResponseDto<Boolean>> delete( @PathVariable("officeCode") String officeCode )
   {
