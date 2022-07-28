@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>mx.com.axity</groupId>
+    <groupId>com.axity</groupId>
     <artifactId>arquetipo</artifactId>
     <version>0.0.1</version>
   </parent>
@@ -10,12 +10,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>mx.com.axity</groupId>
+      <groupId>com.axity</groupId>
       <artifactId>arquetipo-model</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>
-      <groupId>mx.com.axity</groupId>
+      <groupId>com.axity</groupId>
       <artifactId>arquetipo-commons</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
