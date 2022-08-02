@@ -1,3 +1,9 @@
+application:
+  redis:
+    hostname: 192.168.0.12
+    port: 6379
+    ttl: 600
+    
 spring:
   config:
     activate:
