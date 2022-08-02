@@ -1,5 +1,11 @@
 package com.axity.arquetipo.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +19,22 @@ import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.enums.ErrorCode;
 import com.axity.arquetipo.commons.exception.BusinessException;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 import com.axity.arquetipo.model.OfficeDO;
+import com.axity.arquetipo.model.QOfficeDO;
 import com.axity.arquetipo.persistence.OfficePersistence;
+import com.axity.arquetipo.persistence.graphql.OfficeGraphQLRepository;
 import com.axity.arquetipo.service.OfficeService;
+import com.axity.arquetipo.service.helper.OfficePredicate;
+import com.axity.arquetipo.service.util.OfficeGraphQLDtoTransformer;
 import com.github.dozermapper.core.Mapper;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
+
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * @author guillermo.segura@axity.com
@@ -31,6 +47,9 @@ public class OfficeServiceImpl implements OfficeService
 
   @Autowired
   private OfficePersistence officePersistence;
+  
+  @Autowired
+  private OfficeGraphQLRepository officeGraphQLRepository;
 
   @Autowired
   private Mapper mapper;
@@ -147,4 +166,53 @@ public class OfficeServiceImpl implements OfficeService
     return dto;
   }
 
+  @Override
+  public List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env )
+  {
+    var office = QOfficeDO.officeDO;
+    var predicates = this.getEmployeePredicates( office, query, true );
+
+    return this.processPredicate( predicates, query );
+  }
+
+  private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper,
+      boolean checkSupervisor )
+  {
+    var predicates = new ArrayList<Predicate>();
+    if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
+    {
+      OfficePredicate.evaluateOfficeOfficeCode( wrapper.getQuery().getOfficeCode(), office, predicates );
+      OfficePredicate.evaluateOfficeOfficeCode( wrapper.getQuery().getOfficeCode(), office, predicates );
+      OfficePredicate.evaluateOfficeCity( wrapper.getQuery().getCity(), office, predicates );
+      OfficePredicate.evaluateOfficePhone( wrapper.getQuery().getPhone(), office, predicates );
+      OfficePredicate.evaluateOfficeAddressLine1( wrapper.getQuery().getAddressLine1(), office, predicates );
+      OfficePredicate.evaluateOfficeAddressLine2( wrapper.getQuery().getAddressLine2(), office, predicates );
+      OfficePredicate.evaluateOfficeState( wrapper.getQuery().getState(), office, predicates );
+      OfficePredicate.evaluateOfficeCountry( wrapper.getQuery().getCountry(), office, predicates );
+      OfficePredicate.evaluateOfficePostalCode( wrapper.getQuery().getPostalCode(), office, predicates );
+      OfficePredicate.evaluateOfficeTerritory( wrapper.getQuery().getTerritory(), office, predicates );
+    }
+
+    return predicates;
+  }
+  
+  private List<OfficeGraphQLDto> processPredicate( List<Predicate> predicates, OfficeQueryDto query )
+  {
+    var offices = new ArrayList<OfficeGraphQLDto>();
+
+    if( predicates.isEmpty() )
+    {
+      var result = this.officeGraphQLRepository.findAll();
+      offices
+          .addAll( result.stream().map( officeDO -> OfficeGraphQLDtoTransformer.transform( officeDO ) )
+              .collect( Collectors.toList() ) );
+    }
+    else
+    {
+      var result = this.officeGraphQLRepository.findAll( ExpressionUtils.allOf( predicates ) );
+      result.forEach( officeDO -> offices.add( OfficeGraphQLDtoTransformer.transform( officeDO ) ) );
+    }
+
+    return offices;
+  }
 }

@@ -1,15 +1,21 @@
 package com.axity.arquetipo.facade.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 import com.axity.arquetipo.facade.OfficeFacade;
 import com.axity.arquetipo.service.OfficeService;
+
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * @author guillermo.segura@axity.com
@@ -65,4 +71,11 @@ public class OfficeFacadeImpl implements OfficeFacade
     return this.officeService.delete( officeCode );
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env )
+  {
+    return this.officeService.findGraphQL( query, env );
+  }
 }

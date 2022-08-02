@@ -1,9 +1,15 @@
 package com.axity.arquetipo.service;
 
+import java.util.List;
+
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
+
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * Interface de servicios para oficinas
@@ -52,4 +58,12 @@ public interface OfficeService
    * @return
    */
   GenericResponseDto<Boolean> delete( String officeCode );
+
+  /**
+   * Consulat por graphql
+   * @param query
+   * @param env 
+   * @return
+   */
+  List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env );
 }

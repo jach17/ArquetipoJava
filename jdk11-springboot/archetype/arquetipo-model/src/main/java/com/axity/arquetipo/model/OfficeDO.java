@@ -1,15 +1,11 @@
 package com.axity.arquetipo.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -55,9 +51,6 @@ public class OfficeDO implements Serializable
 
   @Column(name = "territory", nullable = false, length = 10)
   private String territory;
-
-  @OneToMany(mappedBy = "office", fetch = FetchType.LAZY)
-  private List<EmployeeDO> employees;
 
   /**
    * {@inheritDoc}

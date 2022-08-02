@@ -1,9 +1,15 @@
 package com.axity.arquetipo.facade;
 
+import java.util.List;
+
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
+
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * @author guillermo.segura@axity.com
@@ -49,4 +55,11 @@ public interface OfficeFacade
    * @return
    */
   GenericResponseDto<Boolean> delete( String officeCode );
+
+  /**
+   * @param query
+   * @param env 
+   * @return
+   */
+  List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env );
 }
