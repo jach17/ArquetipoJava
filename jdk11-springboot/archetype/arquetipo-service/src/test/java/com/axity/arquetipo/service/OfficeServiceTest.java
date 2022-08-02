@@ -21,7 +21,8 @@ import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.enums.ErrorCode;
 import com.axity.arquetipo.commons.exception.BusinessException;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
-import com.axity.arquetipo.service.OfficeService;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 
 /**
  * @author guillermo.segura@axity.com
@@ -165,4 +166,120 @@ class OfficeServiceTest
     assertEquals( ErrorCode.OFFICE_NOT_FOUND.getCode(), ex.getCode() );
   }
 
+  @Test
+  void testFindGraphQL_empty()
+  {
+    var query = new OfficeQueryDto();
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @ValueSource(strings = { "1", "2", "3", "4", "5", "6", "7" })
+  void testFindGraphQL_officeCode( String officeCode )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setOfficeCode( officeCode );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @ValueSource(strings = { "San Francisco", "Boston", "London" })
+  void testFindGraphQL_city( String city )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setCity( city );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @ValueSource(strings = { "+1", "+33", "650 219 4782" })
+  void testFindGraphQL_phone( String phone )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setPhone( phone );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @ValueSource(strings = { "Market Street", "Wentworth" })
+  void testFindGraphQL_addressLine1( String addressLine1 )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setAddressLine1( addressLine1 );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @ValueSource(strings = { "Suite", "Floor" })
+  void testFindGraphQL_addressLine2( String addressLine2 )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setAddressLine2( addressLine2 );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+  
+  @ParameterizedTest()
+  @ValueSource(strings = { "CA", "NY", "MA" })
+  void testFindGraphQL_state( String state )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setState( state );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+  
+  @ParameterizedTest()
+  @ValueSource(strings = { "USA", "France", "Australia" })
+  void testFindGraphQL_country( String country )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setCountry( country );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+  
+  @ParameterizedTest()
+  @ValueSource(strings = { "94080", "02107" })
+  void testFindGraphQL_postalCode( String postalCode )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setPostalCode( postalCode );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+  
+  @ParameterizedTest()
+  @ValueSource(strings = { "NA", "EMEA", "APAC", "Japan" })
+  void testFindGraphQL_territory( String territory )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setTerritory( territory );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
 }

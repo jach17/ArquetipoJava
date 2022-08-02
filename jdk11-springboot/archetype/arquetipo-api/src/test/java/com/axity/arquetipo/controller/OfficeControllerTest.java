@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +26,7 @@ import com.axity.arquetipo.commons.request.PaginatedRequestDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
 import com.axity.arquetipo.facade.OfficeFacade;
+import com.axity.arquetipo.persistence.redis.StringRedisRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -44,6 +46,14 @@ class OfficeControllerTest
 
   @MockBean
   private OfficeFacade officeFacade;
+  
+  @MockBean
+  private StringRedisRepository redis;
+  
+  @BeforeEach
+  void setUp() {
+    when(this.redis.hasKey( anyString() )).thenReturn( false );
+  }
 
   /**
    * Test method for {@link com.axity.arquetipo.controller.OfficeController#findOffices(int, int)}.

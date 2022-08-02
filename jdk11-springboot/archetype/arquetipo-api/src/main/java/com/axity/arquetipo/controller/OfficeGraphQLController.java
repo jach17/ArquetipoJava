@@ -18,11 +18,24 @@ public class OfficeGraphQLController
 {
   @Autowired
   private OfficeFacade officeFacade;
-  
+
   @QueryMapping(name = "offices")
-  public List<OfficeGraphQLDto> getAllEmployeesByExample( @Argument OfficeQueryDto query,
-      DataFetchingEnvironment env )
+  public List<OfficeGraphQLDto> getAllEmployeesByExample( @Argument OfficeGraphQLDto query, @Argument Integer page,
+      @Argument Integer size, DataFetchingEnvironment env )
   {
-    return this.officeFacade.findGraphQL( query, env );
+    var wrapper = new OfficeQueryDto();
+    wrapper.setQuery( query );
+
+    if( page != null )
+    {
+      wrapper.setPage( page );
+    }
+
+    if( size != null )
+    {
+      wrapper.setSize( size );
+    }
+
+    return this.officeFacade.findGraphQL( wrapper, env );
   }
 }

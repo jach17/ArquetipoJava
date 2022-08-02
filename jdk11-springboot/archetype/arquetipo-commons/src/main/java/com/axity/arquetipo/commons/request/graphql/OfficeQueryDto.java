@@ -15,6 +15,6 @@ import lombok.Setter;
 public class OfficeQueryDto
 {
   private OfficeGraphQLDto query;
-  private int limit;
-  private int offset;
+  private int page = 0;
+  private int size = 50;
 }

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,7 +48,7 @@ public class OfficeServiceImpl implements OfficeService
 
   @Autowired
   private OfficePersistence officePersistence;
-  
+
   @Autowired
   private OfficeGraphQLRepository officeGraphQLRepository;
 
@@ -175,8 +176,7 @@ public class OfficeServiceImpl implements OfficeService
     return this.processPredicate( predicates, query );
   }
 
-  private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper,
-      boolean checkSupervisor )
+  private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper, boolean checkSupervisor )
   {
     var predicates = new ArrayList<Predicate>();
     if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
@@ -195,24 +195,39 @@ public class OfficeServiceImpl implements OfficeService
 
     return predicates;
   }
-  
+
   private List<OfficeGraphQLDto> processPredicate( List<Predicate> predicates, OfficeQueryDto query )
   {
     var offices = new ArrayList<OfficeGraphQLDto>();
 
+    Pageable pageable = extractPageable( query );
+
     if( predicates.isEmpty() )
     {
-      var result = this.officeGraphQLRepository.findAll();
-      offices
-          .addAll( result.stream().map( officeDO -> OfficeGraphQLDtoTransformer.transform( officeDO ) )
-              .collect( Collectors.toList() ) );
+      var result = this.officeGraphQLRepository.findAll( pageable );
+      offices.addAll( result.stream().map( officeDO -> OfficeGraphQLDtoTransformer.transform( officeDO ) )
+          .collect( Collectors.toList() ) );
     }
     else
     {
-      var result = this.officeGraphQLRepository.findAll( ExpressionUtils.allOf( predicates ) );
+      var result = this.officeGraphQLRepository.findAll( ExpressionUtils.allOf( predicates ), pageable );
       result.forEach( officeDO -> offices.add( OfficeGraphQLDtoTransformer.transform( officeDO ) ) );
     }
 
     return offices;
+  }
+
+  private Pageable extractPageable( OfficeQueryDto query )
+  {
+    Pageable pageable;
+    if( query.getSize() > 0 )
+    {
+      pageable = PageRequest.of( query.getPage(), query.getSize() );
+    }
+    else
+    {
+      pageable = PageRequest.of( 0, 50 );
+    }
+    return pageable;
   }
 }

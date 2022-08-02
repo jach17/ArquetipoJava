@@ -13,11 +13,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
+import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
-import com.axity.arquetipo.facade.OfficeFacade;
+import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 import com.axity.arquetipo.facade.impl.OfficeFacadeImpl;
 import com.axity.arquetipo.service.OfficeService;
+
+import graphql.schema.DataFetchingEnvironment;
 
 /**
  * @author guillermo.segura@axity.com
@@ -63,9 +66,9 @@ class OfficeFacadeTest
   @Test
   void testFind()
   {
-    var response = new GenericResponseDto<OfficeDto> (this.createOffice( 1 ));
-    when(this.officeService.find( any(String.class) )).thenReturn( response );
-    
+    var response = new GenericResponseDto<OfficeDto>( this.createOffice( 1 ) );
+    when( this.officeService.find( any( String.class ) ) ).thenReturn( response );
+
     var result = this.officeFacade.find( "1" );
     assertNotNull( result );
   }
@@ -78,9 +81,9 @@ class OfficeFacadeTest
   void testCreate()
   {
     var office = this.createOffice( 8 );
-    var response = new GenericResponseDto<>(office);
-    when(this.officeService.create( any(OfficeDto.class) )).thenReturn( response );
-    
+    var response = new GenericResponseDto<>( office );
+    when( this.officeService.create( any( OfficeDto.class ) ) ).thenReturn( response );
+
     var result = this.officeFacade.create( office );
     assertNotNull( result );
   }
@@ -93,9 +96,9 @@ class OfficeFacadeTest
   void testUpdate()
   {
     var office = this.createOffice( 1 );
-    
-    var response = new GenericResponseDto<>(true);
-    when(this.officeService.update( any(OfficeDto.class) )).thenReturn( response );
+
+    var response = new GenericResponseDto<>( true );
+    when( this.officeService.update( any( OfficeDto.class ) ) ).thenReturn( response );
     var result = this.officeFacade.update( office );
     assertNotNull( result );
   }
@@ -106,9 +109,9 @@ class OfficeFacadeTest
   @Test
   void testDelete()
   {
-    var response = new GenericResponseDto<>(true);
-    when(this.officeService.delete( any(String.class) )).thenReturn( response );
-    
+    var response = new GenericResponseDto<>( true );
+    when( this.officeService.delete( any( String.class ) ) ).thenReturn( response );
+
     var result = this.officeFacade.delete( "9" );
     assertNotNull( result );
   }
@@ -118,6 +121,18 @@ class OfficeFacadeTest
     var office = new OfficeDto();
     office.setOfficeCode( String.valueOf( i ) );
     return office;
+  }
+
+  @Test
+  void testFindGraphQL()
+  {
+    var list = new ArrayList<OfficeGraphQLDto>();
+    when( this.officeService.findGraphQL( any( OfficeQueryDto.class ), any( DataFetchingEnvironment.class ) ) )
+        .thenReturn( list );
+
+    var query = new OfficeQueryDto();
+    var result = this.officeFacade.findGraphQL( query, null );
+    assertNotNull( result );
   }
 
 }
