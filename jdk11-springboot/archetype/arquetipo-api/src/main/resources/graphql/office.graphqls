@@ -1,0 +1,27 @@
+type Query {
+	offices(query : OfficeQuery) : [Office]
+}
+
+input OfficeQuery {
+	officeCode: ID
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
+}
+
+type Office {
+	officeCode: ID
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
+}
