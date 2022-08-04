@@ -52,3 +52,11 @@ spring:
       - classpath:graphql/
     graphiql:
       enabled: true
+  kafka:
+    bootstrap-servers: 192.168.0.12:9192
+    client-id: arquetipo-client-id
+    properties:
+      sasl.jaas.config: 
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+

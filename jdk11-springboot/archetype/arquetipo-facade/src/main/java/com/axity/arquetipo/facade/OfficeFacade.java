@@ -58,8 +58,15 @@ public interface OfficeFacade
 
   /**
    * @param query
-   * @param env 
+   * @param env
    * @return
    */
   List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env );
+
+  /**
+   * Procesa un mensaje
+   * 
+   * @param message
+   */
+  void processMessage( String message );
 }

@@ -6,19 +6,18 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.enums.ErrorCode;
 import com.axity.arquetipo.commons.exception.BusinessException;
+import com.axity.arquetipo.commons.request.MessageDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
 import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
@@ -32,20 +31,22 @@ import com.axity.arquetipo.service.OfficeService;
 import com.axity.arquetipo.service.helper.OfficePredicate;
 import com.axity.arquetipo.service.util.OfficeGraphQLDtoTransformer;
 import com.github.dozermapper.core.Mapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 
 import graphql.schema.DataFetchingEnvironment;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author guillermo.segura@axity.com
  */
 @Service
 @Transactional
+@Slf4j
 public class OfficeServiceImpl implements OfficeService
 {
-  private static final Logger LOG = LoggerFactory.getLogger( OfficeServiceImpl.class );
-
   @Autowired
   private OfficePersistence officePersistence;
 
@@ -55,13 +56,16 @@ public class OfficeServiceImpl implements OfficeService
   @Autowired
   private Mapper mapper;
 
+  @Autowired
+  private KafkaTemplate<Object, Object> template;
+
   /**
    * {@inheritDoc}
    */
   @Override
   public PaginatedResponseDto<OfficeDto> findOffices( PaginatedRequestDto request )
   {
-    LOG.debug( "%s", request );
+    log.debug( "%s", request );
 
     int page = request.getOffset() / request.getLimit();
     Pageable pageRequest = PageRequest.of( page, request.getLimit(), Sort.by( "country", "city" ) );
@@ -111,6 +115,11 @@ public class OfficeServiceImpl implements OfficeService
 
     this.officePersistence.save( entity );
 
+    Gson gson = new GsonBuilder().create();
+    var message = new MessageDto( "Se creo entidad:", gson.toJson( office ) );
+
+    this.template.send( "test", gson.toJson( message ) );
+
     return new GenericResponseDto<>( office );
   }
 
@@ -157,6 +166,31 @@ public class OfficeServiceImpl implements OfficeService
     return new GenericResponseDto<>( true );
   }
 
+  @Override
+  public List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env )
+  {
+    var office = QOfficeDO.officeDO;
+    var predicates = this.getEmployeePredicates( office, query, true );
+
+    return this.processPredicate( predicates, query );
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void processMessage( String message )
+  {
+    log.info( "-> Mensaje: {}", message );
+
+    Gson gson = new GsonBuilder().create();
+
+    var obj = gson.fromJson( message, MessageDto.class );
+
+    log.info( "{}", obj.getJson() );
+    var office = gson.fromJson( obj.getJson(), OfficeDto.class );
+    log.info( "{}", office );
+  }
+
   private OfficeDto transform( OfficeDO entity )
   {
     OfficeDto dto = null;
@@ -165,15 +199,6 @@ public class OfficeServiceImpl implements OfficeService
       dto = this.mapper.map( entity, OfficeDto.class );
     }
     return dto;
-  }
-
-  @Override
-  public List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env )
-  {
-    var office = QOfficeDO.officeDO;
-    var predicates = this.getEmployeePredicates( office, query, true );
-
-    return this.processPredicate( predicates, query );
   }
 
   private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper, boolean checkSupervisor )

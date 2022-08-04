@@ -78,4 +78,12 @@ public class OfficeFacadeImpl implements OfficeFacade
   {
     return this.officeService.findGraphQL( query, env );
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void processMessage( String message )
+  {
+    this.officeService.processMessage( message );
+  }
 }
