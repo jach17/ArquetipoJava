@@ -11,6 +11,7 @@ spring:
 
   application:
     name: Arquetipo de Spring Boot
+    topic: test
   jpa:
     database: default
     database-platform: org.hibernate.dialect.H2Dialect

@@ -58,7 +58,7 @@ public class OfficeServiceImpl implements OfficeService
 
   @Autowired
   private KafkaTemplate<Object, Object> template;
-
+  
   /**
    * {@inheritDoc}
    */

@@ -11,6 +11,7 @@ spring:
 
   application:
     name: Arquetipo de Spring Boot
+    topic: test
   jpa:
     database: default
     database-platform: org.hibernate.dialect.H2Dialect
@@ -37,3 +38,10 @@ spring:
       - classpath:graphql/
     graphiql:
       enabled: true
+  kafka:
+    bootstrap-servers: ${serverName}.servicebus.windows.net:9093
+    client-id: arquetipo-client-id
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://${serverName}.servicebus.windows.net/;SharedAccessKeyName=${keyName};SharedAccessKey=TGxhdmUgb2Z1c2NhZGE=";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL

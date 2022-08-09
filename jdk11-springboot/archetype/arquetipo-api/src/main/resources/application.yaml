@@ -18,7 +18,7 @@ application:
     hostname: 192.168.0.12
     port: 6379
     ttl: 600
-    
+  topic: genericqueuemessagedto
 spring:
   config:
     activate:
@@ -58,5 +58,5 @@ spring:
     properties:
       sasl.jaas.config: 
       sasl.mechanism: PLAIN
-      security.protocol: SASL_SSL
+      security.protocol: PLAINTEXT
 
