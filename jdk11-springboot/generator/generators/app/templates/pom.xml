@@ -8,7 +8,7 @@
   </parent>
   <groupId>com.[%= companylower %]</groupId>
   <artifactId>[%= namelower %]</artifactId>
-  <version>0.0.1</version>
+  <version>[%= version %]</version>
   <packaging>pom</packaging>
   <name>Arquetipo Base de SpringBoot</name>
   <description>Arquetipo Base de Spring Boot</description>

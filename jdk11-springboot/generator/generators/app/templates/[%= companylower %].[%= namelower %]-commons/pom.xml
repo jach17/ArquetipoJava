@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.[%= companylower %]</groupId>
     <artifactId>[%= namelower %]</artifactId>
-    <version>0.0.1</version>
+    <version>[%= version %]</version>
   </parent>
   <artifactId>[%= namelower %]-commons</artifactId>
 </project>

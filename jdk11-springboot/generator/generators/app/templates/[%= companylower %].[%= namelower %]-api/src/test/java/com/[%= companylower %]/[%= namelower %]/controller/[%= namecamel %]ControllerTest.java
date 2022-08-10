@@ -82,7 +82,7 @@ class [%= namecamel %]ControllerTest
         .andExpect( jsonPath( "$.page" ).value( "0" ) )
         .andExpect( jsonPath( "$.size" ).value( "20" ) )
         .andExpect( jsonPath( "$.data" ).isArray() )
-        .andExpect( jsonPath( "$.data[0].Id" ).value( 1 ) ).andReturn();
+        .andExpect( jsonPath( "$.data[0].id" ).value( 1 ) ).andReturn();
 
     assertNotNull( result );
   }
@@ -102,7 +102,7 @@ class [%= namecamel %]ControllerTest
     MvcResult result = mockMvc.perform( MockMvcRequestBuilders.get( "/api/[%= namelower %]s/1" ) )
         .andExpect( status().isOk() )
         .andExpect( jsonPath( "$.header.code" ).value( "0" ) )
-        .andExpect( jsonPath( "$.body.Id" ).value( 1 ) ).andReturn();
+        .andExpect( jsonPath( "$.body.id" ).value( 1 ) ).andReturn();
 
     assertNotNull( result );
   }
@@ -128,7 +128,7 @@ class [%= namecamel %]ControllerTest
             .contentType( MediaType.APPLICATION_JSON ))
         .andExpect( status().isCreated() )
         .andExpect( jsonPath( "$.header.code" ).value( "0" ) )
-        .andExpect( jsonPath( "$.body.[%= namelower %]Id" ).value( "9" ) ).andReturn();
+        .andExpect( jsonPath( "$.body.id" ).value( 9 ) ).andReturn();
 
     assertNotNull( result );
   }

@@ -7,7 +7,7 @@ type Query {
 }
 
 input [%= namecamel %]Query {
-	[%= namelower %]Code: String
+	id: Int
 	city: String
 	phone: String
 	addressLine1: String
@@ -19,7 +19,7 @@ input [%= namecamel %]Query {
 }
 
 type [%= namecamel %] {
-	[%= namelower %]Code: String
+	id: Int
 	city: String
 	phone: String
 	addressLine1: String

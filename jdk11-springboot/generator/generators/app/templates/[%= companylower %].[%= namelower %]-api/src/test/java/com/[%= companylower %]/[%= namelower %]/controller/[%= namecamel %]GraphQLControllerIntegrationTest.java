@@ -42,11 +42,11 @@ public class [%= namecamel %]GraphQLControllerIntegrationTest
   void test[%= namecamel %]s() throws Exception
   {
     String query = "query {"
-        + "    offices (query : {"
+        + "    [%= namelower %]s (query : {"
         + "        territory : \"NA\""
         + "    })"
         + "    {"
-        + "        officeCode"
+        + "        id"
         + "        city"
         + "        city"
         + "        phone"
@@ -72,7 +72,7 @@ public class [%= namecamel %]GraphQLControllerIntegrationTest
     .andDo( print() ).andExpect(status().isOk())
     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
     .andExpect( jsonPath( "$.data" ).isNotEmpty() )
-    .andExpect( jsonPath( "$.data.offices" ).isArray() )
+    .andExpect( jsonPath( "$.data.[%= namelower %]s" ).isArray() )
     .andReturn();
 
     assertNotNull( result );

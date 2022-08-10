@@ -15,7 +15,13 @@ module.exports = class extends Generator {
             type: 'input',
             name: 'name',
             message: 'Your project name',
-            default: 'Catalogos'
+            default: 'Office'
+        },
+        {
+            type: 'input',
+            name: 'version',
+            message: 'Version',
+            default: '1.0.0'
         },{
             type: 'input',
             name: 'port',
@@ -49,6 +55,7 @@ module.exports = class extends Generator {
                 company: this.props.company,
                 companylower: this.props.company.toLowerCase(),
                 username: this.props.username,
+                version: this.props.version,
             },
             {
                 openDelimiter: '[',
@@ -66,6 +73,7 @@ module.exports = class extends Generator {
                 company: this.props.company,
                 companylower: this.props.company.toLowerCase(),
                 username: this.props.username,
+                version: this.props.version,
             },
             {
                 openDelimiter: '[',
@@ -81,7 +89,7 @@ module.exports = class extends Generator {
 
     install() {
         var done = this.async();
-        this.spawnCommand('mvn','clean package', {'cwd':`${this.props.name.toLowerCase()}-service/`})
+        this.spawnCommand('mvn',['clean', 'package'], {'cwd':`${this.props.name.toLowerCase()}-service/`})
         .on('error', function(err) {
             done(err);
         })
