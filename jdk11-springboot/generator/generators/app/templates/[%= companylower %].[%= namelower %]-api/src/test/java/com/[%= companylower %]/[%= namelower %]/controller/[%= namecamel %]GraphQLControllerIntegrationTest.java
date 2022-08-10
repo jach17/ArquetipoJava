@@ -25,6 +25,11 @@ import com.google.gson.GsonBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * [%= namecamel %] GraphQLC Controller Test class
+ * 
+ * @author [%= username %]
+ */
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -36,16 +41,16 @@ public class [%= namecamel %]GraphQLControllerIntegrationTest
   @Test
   void test[%= namecamel %]s() throws Exception
   {
-    String query = "query {\r\n"
-        + "    offices (query : {\r\n"
-        + "        territory : \"NA\"\r\n"
-        + "    })\r\n"
-        + "    {\r\n"
-        + "        officeCode\r\n"
-        + "        city\r\n"
-        + "        city\r\n"
-        + "        phone\r\n"
-        + "    }\r\n"
+    String query = "query {"
+        + "    offices (query : {"
+        + "        territory : \"NA\""
+        + "    })"
+        + "    {"
+        + "        officeCode"
+        + "        city"
+        + "        city"
+        + "        phone"
+        + "    }"
         + "}";
     
     

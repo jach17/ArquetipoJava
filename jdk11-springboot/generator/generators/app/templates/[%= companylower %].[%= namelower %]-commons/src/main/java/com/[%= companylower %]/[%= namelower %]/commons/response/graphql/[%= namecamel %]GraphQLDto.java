@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * [%= namecamel %]  GraphQL Transfer Object class
+ * [%= namecamel %] GraphQL Transfer Object class
  * 
  * @author [%= username %]
  */

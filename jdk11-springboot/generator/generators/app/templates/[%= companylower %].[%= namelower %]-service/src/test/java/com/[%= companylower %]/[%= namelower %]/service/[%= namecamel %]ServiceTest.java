@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.[%= companylower %].[%= namelower %].commons.dto.[%= namecamel %]Dto;
@@ -37,6 +39,9 @@ class [%= namecamel %]ServiceTest
 
   @Autowired
   private [%= namecamel %]Service [%= namelower %]Service;
+
+  @MockBean
+  private KafkaTemplate<Object, Object> template;
 
   /**
    * Method to validate the paginated search
@@ -135,7 +140,7 @@ class [%= namecamel %]ServiceTest
     [%= namelower %].setId(999999);
     var ex = assertThrows( BusinessException.class, () -> this.[%= namelower %]Service.update( [%= namelower %] ) );
 
-    assertEquals( ErrorCode.OFFICE_NOT_FOUND.getCode(), ex.getCode() );
+    assertEquals( ErrorCode.[%= nameupper %]_NOT_FOUND.getCode(), ex.getCode() );
   }
 
   /**
@@ -145,7 +150,7 @@ class [%= namecamel %]ServiceTest
   void testDeleteNotFound()
   {
     var ex = assertThrows( BusinessException.class, () -> this.[%= namelower %]Service.delete( 999999 ) );
-    assertEquals( ErrorCode.OFFICE_NOT_FOUND.getCode(), ex.getCode() );
+    assertEquals( ErrorCode.[%= nameupper %]_NOT_FOUND.getCode(), ex.getCode() );
   }
 
   /**

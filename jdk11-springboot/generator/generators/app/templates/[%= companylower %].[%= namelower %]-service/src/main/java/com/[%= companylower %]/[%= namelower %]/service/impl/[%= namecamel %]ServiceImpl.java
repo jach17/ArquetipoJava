@@ -131,7 +131,7 @@ public class [%= namecamel %]ServiceImpl implements [%= namecamel %]Service
     var optional = this.[%= namelower %]Persistence.findById( [%= namelower %].getId() );
     if( optional.isEmpty() )
     {
-      throw new BusinessException( ErrorCode.OFFICE_NOT_FOUND );
+      throw new BusinessException( ErrorCode.[%= nameupper %]_NOT_FOUND );
     }
 
     var entity = optional.get();
@@ -156,7 +156,7 @@ public class [%= namecamel %]ServiceImpl implements [%= namecamel %]Service
     var optional = this.[%= namelower %]Persistence.findById( [%= namelower %]Id );
     if( optional.isEmpty() )
     {
-      throw new BusinessException( ErrorCode.OFFICE_NOT_FOUND );
+      throw new BusinessException( ErrorCode.[%= nameupper %]_NOT_FOUND );
     }
 
     var entity = optional.get();

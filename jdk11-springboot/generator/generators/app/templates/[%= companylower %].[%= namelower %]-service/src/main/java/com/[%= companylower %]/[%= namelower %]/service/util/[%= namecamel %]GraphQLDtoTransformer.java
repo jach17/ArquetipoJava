@@ -4,7 +4,8 @@ import com.[%= companylower %].[%= namelower %].commons.response.graphql.[%= nam
 import com.[%= companylower %].[%= namelower %].model.[%= namecamel %]DO;
 
 /**
- * @author guillermo.segura@axity.com
+ * [%= namecamel %] GraphQL Dto Transformer class
+ * @author [%= username %]
  */
 public final class [%= namecamel %]GraphQLDtoTransformer
 {

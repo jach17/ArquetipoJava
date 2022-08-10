@@ -3,8 +3,8 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
   <mapping>
-    <class-a>com.[%= company %].[%= name %].commons.dto.[%= namecamel %]Dto</class-a>
-    <class-b>com.[%= company %].[%= name %].model.[%= namecamel %]DO</class-b>
+    <class-a>com.[%= companylower %].[%= namelower %].commons.dto.[%= namecamel %]Dto</class-a>
+    <class-b>com.[%= companylower %].[%= namelower %].model.[%= namecamel %]DO</class-b>
     <field>
       <a>id</a>
       <b>id</b>

@@ -14,12 +14,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entity class of the table [%= namelower %]s
+ * Entity class of the table [%= namelower %]
  * 
  * @author [%= username %]
  */
 @Entity
-@Table(name = "[%= namelower %]s")
+@Table(name = "[%= namelower %]")
 @Getter
 @Setter
 public class [%= namecamel %]DO implements Serializable

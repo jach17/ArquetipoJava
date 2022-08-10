@@ -2,8 +2,6 @@ package com.[%= companylower %].[%= namelower %].commons.dto;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,7 +12,7 @@ import lombok.Setter;
 /**
  * [%= namecamel %] Transfer Object classe
  * 
- * @author guillermo.segura@axity.com
+ * @author [%= username %]
  */
 @Getter
 @Setter

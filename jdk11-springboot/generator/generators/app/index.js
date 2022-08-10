@@ -43,6 +43,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.name.toLowerCase()}-service/`), {
                 name: this.props.name,
                 namelower: this.props.name.toLowerCase(),
+                nameupper: this.props.name.toUpperCase(),
                 namecamel: this.props.name.substring(0,1).toUpperCase() + this.props.name.substring(1).toLowerCase(),
                 port: this.props.port,
                 company: this.props.company,
@@ -59,6 +60,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.name.toLowerCase()}-service/`), {
                 name: this.props.name,
                 namelower: this.props.name.toLowerCase(),
+                nameupper: this.props.name.toUpperCase(),
                 namecamel: this.props.name.substring(0,1).toUpperCase() + this.props.name.substring(1).toLowerCase(),
                 port: this.props.port,
                 company: this.props.company,
@@ -76,13 +78,13 @@ module.exports = class extends Generator {
           );
         done();
     }
-/*
+
     install() {
         var done = this.async();
-        this.spawnCommand('mvn','clean','package', {'cwd':`${this.props.name.toLowerCase()}-service/`})
+        this.spawnCommand('mvn','clean package', {'cwd':`${this.props.name.toLowerCase()}-service/`})
         .on('error', function(err) {
             done(err);
         })
     }
-*/
+
 };
