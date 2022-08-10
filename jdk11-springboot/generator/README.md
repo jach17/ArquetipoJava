@@ -12,7 +12,7 @@ Proyecto generado para la configuración automática de microservicios con netco
 
 ## Generar proyecto
 
-Ejecutar el comando: `yo netcore3`  
+Ejecutar el comando: `yo jdk11-springboot`  
 
 Aparece un prompt donde debemos colocar el nombre de nuestro proyecto en formato PascalCase sin espacios
 
@@ -23,7 +23,9 @@ Esto genera un proyecto llamado: [nombre ingresado]-service
 Javier Rodríguez  
 [francisco.rodriguez@axity.com]  
 Hugo Meraz  
-[hugo.meraz@axity.com]  
+[hugo.meraz@axity.com]
+Guillermo Segura Olivera
+[guillermo.segura@axity.com]  
 
 ## License
 

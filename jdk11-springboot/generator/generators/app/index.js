@@ -21,11 +21,17 @@ module.exports = class extends Generator {
             name: 'port',
             message: 'Your project port',
             default: '9090'
+        },{
+            type: 'input',
+            name: 'username',
+            message: 'username',
+            default: 'username@axity.com'
         }]).then(((answers) => {
             this.props = answers;
             this.log('Company:', answers.company);
             this.log('Name:', answers.name);
             this.log('Port:', answers.port);
+            this.log('Username:', answers.username);
             done();
         }).bind(this));
     }
@@ -37,8 +43,11 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.name.toLowerCase()}-service/`), {
                 name: this.props.name,
                 namelower: this.props.name.toLowerCase(),
+                namecamel: this.props.name.substring(0,1).toUpperCase() + this.props.name.substring(1).toLowerCase(),
                 port: this.props.port,
                 company: this.props.company,
+                companylower: this.props.company.toLowerCase(),
+                username: this.props.username,
             },
             {
                 openDelimiter: '[',
@@ -50,8 +59,11 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.name.toLowerCase()}-service/`), {
                 name: this.props.name,
                 namelower: this.props.name.toLowerCase(),
+                namecamel: this.props.name.substring(0,1).toUpperCase() + this.props.name.substring(1).toLowerCase(),
                 port: this.props.port,
                 company: this.props.company,
+                companylower: this.props.company.toLowerCase(),
+                username: this.props.username,
             },
             {
                 openDelimiter: '[',
