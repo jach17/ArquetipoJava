@@ -20,14 +20,11 @@ Esto genera un proyecto llamado: [nombre ingresado]-service
 
 ## Contributors
 
-Javier Rodríguez  
-[francisco.rodriguez@axity.com]  
+Javier Rodríguez [francisco.rodriguez@axity.com]  
 
-Hugo Meraz  
-[hugo.meraz@axity.com]
+Hugo Meraz [hugo.meraz@axity.com]
 
-Guillermo Segura Olivera
-[guillermo.segura@axity.com]  
+Guillermo Segura Olivera [guillermo.segura@axity.com]  
 
 ## License
 
