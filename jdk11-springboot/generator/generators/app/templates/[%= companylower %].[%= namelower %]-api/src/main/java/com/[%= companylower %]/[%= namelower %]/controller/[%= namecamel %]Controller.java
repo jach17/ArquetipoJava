@@ -56,7 +56,7 @@ public class [%= namecamel %]Controller
    */
   @JsonResponseInterceptor
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = "[%= namecamel %]s", summary = "Consulta las oficinas")
+  @Operation(tags = "[%= namecamel %]s", summary = "Method to get [%= namecamel %]s paginated")
   public ResponseEntity<PaginatedResponseDto<[%= namecamel %]Dto>> find[%= namecamel %]s(
       @RequestParam(name = "limit", defaultValue = "50", required = false)
       int limit, @RequestParam(name = "offset", defaultValue = "0", required = false)
@@ -74,7 +74,7 @@ public class [%= namecamel %]Controller
    */
   @JsonResponseInterceptor
   @GetMapping(path = "/{[%= namelower %]Id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = "[%= namecamel %]s", description = "Method to get [%= namecamel %] by id", summary = "Method to get [%= namecamel %] by id")
+  @Operation(tags = "[%= namecamel %]s", summary = "Method to get [%= namecamel %] by id")
   public ResponseEntity<GenericResponseDto<[%= namecamel %]Dto>> find[%= namecamel %]( @PathVariable("[%= namelower %]Id")
   Integer [%= namelower %]Id )
   {
@@ -121,7 +121,7 @@ public class [%= namecamel %]Controller
    */
   @JsonResponseInterceptor
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = "[%= namecamel %]s", description = "Method to create a [%= namecamel %]", summary = "Method to create a [%= namecamel %]")
+  @Operation(tags = "[%= namecamel %]s", summary = "Method to create a [%= namecamel %]")
   public ResponseEntity<GenericResponseDto<[%= namecamel %]Dto>> create( @RequestBody [%= namecamel %]Dto [%= namelower %] )
   {
     var result = this.[%= namelower %]Facade.create( [%= namelower %] );
@@ -137,7 +137,7 @@ public class [%= namecamel %]Controller
    */
   @JsonResponseInterceptor
   @PutMapping(path = "/{[%= namelower %]Id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = "[%= namecamel %]s", description = "Method to update a [%= namecamel %]", summary = "Method to update a [%= namecamel %]")
+  @Operation(tags = "[%= namecamel %]s", summary = "Method to update a [%= namecamel %]")
   public ResponseEntity<GenericResponseDto<Boolean>> update( @PathVariable("[%= namelower %]Id") Integer [%= namelower %]Id, @RequestBody [%= namecamel %]Dto [%= namelower %] )
   {
     [%= namelower %].setId( [%= namelower %]Id );
@@ -159,7 +159,7 @@ public class [%= namecamel %]Controller
    */
   @JsonResponseInterceptor
   @DeleteMapping(path = "/{[%= namelower %]Id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Operation(tags = "[%= namecamel %]s", description = "Method to delete a [%= namecamel %]", summary = "Method to delete a [%= namecamel %]")
+  @Operation(tags = "[%= namecamel %]s", summary = "Method to delete a [%= namecamel %]")
   public ResponseEntity<GenericResponseDto<Boolean>> delete( @PathVariable("[%= namelower %]Id") Integer [%= namelower %]Id )
   {
     var result = this.[%= namelower %]Facade.delete( [%= namelower %]Id );
@@ -168,5 +168,18 @@ public class [%= namecamel %]Controller
       this.redis.delete( this.get[%= namecamel %]Key( [%= namelower %]Id ) );
     }
     return ResponseEntity.ok( result );
+  }
+
+  /**
+   * Ping
+   * 
+   * @return Pong
+   */
+  @JsonResponseInterceptor
+  @GetMapping(path = "ping", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Operation(tags = "[%= namecamel %]s", summary = "Ping")
+  public ResponseEntity<GenericResponseDto<String>> ping( )
+  {
+    return ResponseEntity.ok( new GenericResponseDto<>("pong") );
   }
 }
