@@ -164,4 +164,17 @@ public class OfficeController
     }
     return ResponseEntity.ok( result );
   }
+
+  /**
+   * Ping
+   * 
+   * @return
+   */
+  @JsonResponseInterceptor
+  @GetMapping(path = "ping", produces = MediaType.APPLICATION_JSON_VALUE)
+  @Operation(tags = "Oficinas", summary = "Ping")
+  public ResponseEntity<GenericResponseDto<String>> ping()
+  {
+    return ResponseEntity.ok( new GenericResponseDto<>( "pong" ) );
+  }
 }
