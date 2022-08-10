@@ -22,8 +22,10 @@ Esto genera un proyecto llamado: [nombre ingresado]-service
 
 Javier Rodríguez  
 [francisco.rodriguez@axity.com]  
+
 Hugo Meraz  
 [hugo.meraz@axity.com]
+
 Guillermo Segura Olivera
 [guillermo.segura@axity.com]  
 
