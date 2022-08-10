@@ -1,13 +1,13 @@
-# Generator NetCore microservicios Yeoman
+# Generator Jdk11 + Spring Boot microservicios Yeoman
 
-Proyecto generado para la configuración automática de microservicios con netcore 3.1
+Proyecto generado para la configuración automática de microservicios con OpenJdk 11 + Spring Boot 2.7.1
 
 ## Requisitos
 
 * [Instalar NodeJs LTS](https://nodejs.org/es/)
 * Instalar Yeoman
     `npm install -g yo`
-* Ejecutar dentro de netcore3-generator/
+* Ejecutar dentro de jdk11-springboot/generator/
     `npm link`
 
 ## Generar proyecto
