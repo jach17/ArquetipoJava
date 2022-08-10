@@ -1,0 +1,31 @@
+type Query {
+	[%= namelower %]s(
+		query : [%= namecamel %]Query
+		page : Int
+		size : Int
+	) : [[%= namecamel %]]
+}
+
+input [%= namecamel %]Query {
+	[%= namelower %]Code: String
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
+}
+
+type [%= namecamel %] {
+	[%= namelower %]Code: String
+	city: String
+	phone: String
+	addressLine1: String
+	addressLine2: String
+	state: String
+	country: String
+	postalCode: String
+	territory: String
+}

@@ -1,0 +1,48 @@
+application:
+  redis:
+    hostname: 192.168.0.12
+    port: 6379
+    ttl: 600
+    
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  application:
+    name: Arquetipo de Spring Boot
+    topic: test
+  jpa:
+    database: default
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  graphql:
+    path: /graphql
+    schema:
+      printer:
+        enabled: true
+      locations:
+      - classpath:graphql/
+    graphiql:
+      enabled: true
+  kafka:
+    bootstrap-servers: ${serverName}.servicebus.windows.net:9093
+    client-id: arquetipo-client-id
+    properties:
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://${serverName}.servicebus.windows.net/;SharedAccessKeyName=${keyName};SharedAccessKey=TGxhdmUgb2Z1c2NhZGE=";
+      sasl.mechanism: PLAIN
+      security.protocol: SASL_SSL
+      
