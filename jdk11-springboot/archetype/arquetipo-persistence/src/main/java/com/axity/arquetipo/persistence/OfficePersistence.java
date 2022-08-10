@@ -12,7 +12,7 @@ import com.axity.arquetipo.model.OfficeDO;
  * @author guillermo.segura@axity.com
  */
 @Repository
-public interface OfficePersistence extends JpaRepository<OfficeDO, String>
+public interface OfficePersistence extends JpaRepository<OfficeDO, Integer>
 {
   
   /**

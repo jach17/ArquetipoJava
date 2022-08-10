@@ -6,8 +6,8 @@
     <class-a>com.axity.arquetipo.commons.dto.OfficeDto</class-a>
     <class-b>com.axity.arquetipo.model.OfficeDO</class-b>
     <field>
-      <a>officeCode</a>
-      <b>officeCode</b>
+      <a>id</a>
+      <b>id</b>
     </field>
     <field>
       <a>city</a>

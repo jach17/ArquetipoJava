@@ -30,10 +30,10 @@ public interface OfficeService
   /**
    * Busca una oficina por código
    * 
-   * @param officeCode
+   * @param id
    * @return
    */
-  GenericResponseDto<OfficeDto> find( String officeCode );
+  GenericResponseDto<OfficeDto> find( Integer id );
 
   /**
    * Crea una oficina
@@ -57,7 +57,7 @@ public interface OfficeService
    * @param officeCode
    * @return
    */
-  GenericResponseDto<Boolean> delete( String officeCode );
+  GenericResponseDto<Boolean> delete( Integer id );
 
   /**
    * Consulat por graphql

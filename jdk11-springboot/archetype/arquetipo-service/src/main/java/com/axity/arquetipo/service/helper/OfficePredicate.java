@@ -21,11 +21,11 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeOfficeCode( String officeCode, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeId( Integer id, QOfficeDO office, ArrayList<Predicate> predicates )
   {
-    if( StringUtils.isNotBlank( officeCode ) )
+    if( id != null )
     {
-      predicates.add( office.officeCode.eq( officeCode ) );
+      predicates.add( office.id.eq( id ) );
     }
   }
 

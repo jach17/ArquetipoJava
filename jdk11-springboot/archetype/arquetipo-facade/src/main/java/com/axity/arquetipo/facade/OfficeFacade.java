@@ -27,10 +27,10 @@ public interface OfficeFacade
   /**
    * Busca una oficina por código
    * 
-   * @param officeCode
+   * @param officeId
    * @return
    */
-  GenericResponseDto<OfficeDto> find( String officeCode );
+  GenericResponseDto<OfficeDto> find( Integer officeId );
 
   /**
    * Crea una oficina
@@ -51,10 +51,10 @@ public interface OfficeFacade
   /**
    * Elimina una oficina
    * 
-   * @param officeCode
+   * @param officeId
    * @return
    */
-  GenericResponseDto<Boolean> delete( String officeCode );
+  GenericResponseDto<Boolean> delete( Integer officeId );
 
   /**
    * @param query

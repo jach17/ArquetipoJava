@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.axity.arquetipo.commons.dto.OfficeDto;
@@ -24,17 +24,21 @@ import com.axity.arquetipo.commons.request.PaginatedRequestDto;
 import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author guillermo.segura@axity.com
  */
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @Transactional
+@Slf4j
 class OfficeServiceTest
 {
-  private static final Logger LOG = LoggerFactory.getLogger( OfficeServiceTest.class );
-
   @Autowired
   private OfficeService officeService;
+  
+  @MockBean
+  private KafkaTemplate<Object, Object> template;
 
   /**
    * Método para validar que se consulte las oficinas de forma paginada
@@ -47,7 +51,7 @@ class OfficeServiceTest
     request.setOffset( 0 );
     var offices = this.officeService.findOffices( request );
 
-    LOG.info( "Response: {}", offices );
+    log.info( "Response: {}", offices );
 
     assertNotNull( offices );
     assertNotNull( offices.getData() );
@@ -61,12 +65,12 @@ class OfficeServiceTest
    * @param officeCode
    */
   @ParameterizedTest
-  @ValueSource(strings = { "1", "2", "3", "4", "5", "6", "7" })
-  void testFind( String officeCode )
+  @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7 })
+  void testFind( Integer officeId )
   {
-    var office = this.officeService.find( officeCode );
+    var office = this.officeService.find( officeId );
     assertNotNull( office );
-    LOG.info( "Response: {}", office );
+    log.info( "Response: {}", office );
   }
 
   /**
@@ -75,7 +79,7 @@ class OfficeServiceTest
   @Test
   void testFind_NotExists()
   {
-    var office = this.officeService.find( "999999" );
+    var office = this.officeService.find( 99999 );
     assertNull( office );
   }
 
@@ -87,7 +91,6 @@ class OfficeServiceTest
   void testCreate()
   {
     var dto = new OfficeDto();
-    dto.setOfficeCode( "8" );
     dto.setCountry( "México" );
     dto.setTerritory( "LATAM" );
     dto.setCity( "CDMX" );
@@ -98,30 +101,13 @@ class OfficeServiceTest
     dto.setPostalCode( "11200" );
 
     var response = this.officeService.create( dto );
+    log.info( response.toString() );
+    
     assertNotNull( response );
     assertEquals( 0, response.getHeader().getCode() );
     assertNotNull( response.getBody() );
 
-    this.officeService.delete( dto.getOfficeCode() );
-  }
-
-  @Test
-  void testCreate_ErrorExists()
-  {
-    var dto = new OfficeDto();
-    dto.setOfficeCode( "1" );
-    dto.setCountry( "México" );
-    dto.setTerritory( "LATAM" );
-    dto.setCity( "CDMX" );
-    dto.setAddressLine1( "Adress 1" );
-    dto.setAddressLine2( "Adress 2" );
-    dto.setState( "CDMX" );
-    dto.setPhone( "+52 55 5555 5555" );
-    dto.setPostalCode( "11200" );
-
-    var ex = assertThrows( BusinessException.class, () -> this.officeService.create( dto ) );
-    assertNotNull( ex );
-    assertEquals( ErrorCode.OFFICE_ALREADY_EXISTS.getCode(), ex.getCode() );
+    this.officeService.delete( dto.getId() );
   }
 
   /**
@@ -130,7 +116,7 @@ class OfficeServiceTest
   @Test
   void testUpdate()
   {
-    var office = this.officeService.find( "1" ).getBody();
+    var office = this.officeService.find( 1 ).getBody();
     var address = "new Address";
     office.setAddressLine1( address );
     var response = this.officeService.update( office );
@@ -138,7 +124,7 @@ class OfficeServiceTest
     assertNotNull( response );
     assertEquals( 0, response.getHeader().getCode() );
     assertTrue( response.getBody() );
-    office = this.officeService.find( "1" ).getBody();
+    office = this.officeService.find( 1 ).getBody();
 
     assertEquals( address, office.getAddressLine1() );
   }
@@ -150,7 +136,7 @@ class OfficeServiceTest
   void testUpdate_NotFound()
   {
     var office = new OfficeDto();
-    office.setOfficeCode( "999999" );
+    office.setId( 999999 );
     var ex = assertThrows( BusinessException.class, () -> this.officeService.update( office ) );
 
     assertEquals( ErrorCode.OFFICE_NOT_FOUND.getCode(), ex.getCode() );
@@ -162,7 +148,7 @@ class OfficeServiceTest
   @Test
   void testDeleteNotFound()
   {
-    var ex = assertThrows( BusinessException.class, () -> this.officeService.delete( "9999" ) );
+    var ex = assertThrows( BusinessException.class, () -> this.officeService.delete( 999999 ) );
     assertEquals( ErrorCode.OFFICE_NOT_FOUND.getCode(), ex.getCode() );
   }
 
@@ -176,12 +162,12 @@ class OfficeServiceTest
   }
 
   @ParameterizedTest()
-  @ValueSource(strings = { "1", "2", "3", "4", "5", "6", "7" })
-  void testFindGraphQL_officeCode( String officeCode )
+  @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7 })
+  void testFindGraphQL_officeCode( Integer officeId )
   {
     var query = new OfficeQueryDto();
     query.setQuery( new OfficeGraphQLDto() );
-    query.getQuery().setOfficeCode( officeCode );
+    query.getQuery().setId( officeId );
     var list = this.officeService.findGraphQL( query, null );
     assertNotNull( list );
     assertFalse( list.isEmpty() );
@@ -234,7 +220,7 @@ class OfficeServiceTest
     assertNotNull( list );
     assertFalse( list.isEmpty() );
   }
-  
+
   @ParameterizedTest()
   @ValueSource(strings = { "CA", "NY", "MA" })
   void testFindGraphQL_state( String state )
@@ -246,7 +232,7 @@ class OfficeServiceTest
     assertNotNull( list );
     assertFalse( list.isEmpty() );
   }
-  
+
   @ParameterizedTest()
   @ValueSource(strings = { "USA", "France", "Australia" })
   void testFindGraphQL_country( String country )
@@ -258,7 +244,7 @@ class OfficeServiceTest
     assertNotNull( list );
     assertFalse( list.isEmpty() );
   }
-  
+
   @ParameterizedTest()
   @ValueSource(strings = { "94080", "02107" })
   void testFindGraphQL_postalCode( String postalCode )
@@ -270,7 +256,7 @@ class OfficeServiceTest
     assertNotNull( list );
     assertFalse( list.isEmpty() );
   }
-  
+
   @ParameterizedTest()
   @ValueSource(strings = { "NA", "EMEA", "APAC", "Japan" })
   void testFindGraphQL_territory( String territory )

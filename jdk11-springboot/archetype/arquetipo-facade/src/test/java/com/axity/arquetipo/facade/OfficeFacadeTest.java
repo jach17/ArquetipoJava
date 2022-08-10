@@ -67,9 +67,9 @@ class OfficeFacadeTest
   void testFind()
   {
     var response = new GenericResponseDto<OfficeDto>( this.createOffice( 1 ) );
-    when( this.officeService.find( any( String.class ) ) ).thenReturn( response );
+    when( this.officeService.find( any( Integer.class ) ) ).thenReturn( response );
 
-    var result = this.officeFacade.find( "1" );
+    var result = this.officeFacade.find( 1 );
     assertNotNull( result );
   }
 
@@ -110,16 +110,17 @@ class OfficeFacadeTest
   void testDelete()
   {
     var response = new GenericResponseDto<>( true );
-    when( this.officeService.delete( any( String.class ) ) ).thenReturn( response );
+    when( this.officeService.delete( any( Integer.class ) ) ).thenReturn( response );
 
-    var result = this.officeFacade.delete( "9" );
+    var result = this.officeFacade.delete( 9 );
     assertNotNull( result );
   }
 
   private OfficeDto createOffice( int i )
   {
     var office = new OfficeDto();
-    office.setOfficeCode( String.valueOf( i ) );
+    office.setId( i );
+    office.setCity( "City " + i );
     return office;
   }
 

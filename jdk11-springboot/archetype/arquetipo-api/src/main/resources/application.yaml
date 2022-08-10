@@ -18,7 +18,6 @@ application:
     hostname: 192.168.0.12
     port: 6379
     ttl: 600
-  topic: genericqueuemessagedto
 spring:
   config:
     activate:

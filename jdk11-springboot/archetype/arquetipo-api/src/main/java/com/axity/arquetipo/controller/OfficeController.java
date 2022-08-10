@@ -55,9 +55,8 @@ public class OfficeController
   @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", summary = "Consulta las oficinas")
   public ResponseEntity<PaginatedResponseDto<OfficeDto>> findOffices(
-      @RequestParam(name = "limit", defaultValue = "50", required = false)
-      int limit, @RequestParam(name = "offset", defaultValue = "0", required = false)
-      int offset )
+      @RequestParam(name = "limit", defaultValue = "50", required = false) int limit,
+      @RequestParam(name = "offset", defaultValue = "0", required = false) int offset )
   {
     var result = this.officeFacade.findOffices( new PaginatedRequestDto( limit, offset ) );
     return ResponseEntity.ok( result );
@@ -70,13 +69,12 @@ public class OfficeController
    * @return
    */
   @JsonResponseInterceptor
-  @GetMapping(path = "/{officeCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(path = "/{officeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Consulta la oficina por el officeCode", summary = "Consulta la oficina por el officeCode")
-  public ResponseEntity<GenericResponseDto<OfficeDto>> findOffice( @PathVariable("officeCode")
-  String officeCode )
+  public ResponseEntity<GenericResponseDto<OfficeDto>> findOffice( @PathVariable("officeId") Integer officeId )
   {
 
-    String key = getOfficeKey( officeCode );
+    String key = getOfficeKey( officeId );
 
     Gson gson = new GsonBuilder().create();
     GenericResponseDto<OfficeDto> result = null;
@@ -90,7 +88,7 @@ public class OfficeController
     }
     else
     {
-      result = this.officeFacade.find( officeCode );
+      result = this.officeFacade.find( officeId );
 
       String json = gson.toJson( result );
       this.redis.add( key, json );
@@ -104,10 +102,9 @@ public class OfficeController
     return new ResponseEntity<>( result, status );
   }
 
-  private String getOfficeKey( String officeCode )
+  private String getOfficeKey( Integer officeId )
   {
-    String key = new StringBuilder().append( "Offices.byOfficeCode:" ).append( officeCode ).toString();
-    return key;
+    return new StringBuilder().append( "Offices.byOfficeCode:" ).append( officeId ).toString();
   }
 
   /**
@@ -119,8 +116,7 @@ public class OfficeController
   @JsonResponseInterceptor
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Crea una oficina", summary = "Crea una oficina")
-  public ResponseEntity<GenericResponseDto<OfficeDto>> create( @RequestBody
-  OfficeDto office )
+  public ResponseEntity<GenericResponseDto<OfficeDto>> create( @RequestBody OfficeDto office )
   {
     var result = this.officeFacade.create( office );
     return new ResponseEntity<>( result, HttpStatus.CREATED );
@@ -134,18 +130,17 @@ public class OfficeController
    * @return
    */
   @JsonResponseInterceptor
-  @PutMapping(path = "/{officeCode}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(path = "/{officeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Edita una oficina", summary = "Edita una oficina")
-  public ResponseEntity<GenericResponseDto<Boolean>> update( @PathVariable("officeCode")
-  String officeCode, @RequestBody
-  OfficeDto office )
+  public ResponseEntity<GenericResponseDto<Boolean>> update( @PathVariable("officeId") Integer officeId,
+      @RequestBody OfficeDto office )
   {
-    office.setOfficeCode( officeCode );
+    office.setId( officeId );
     var result = this.officeFacade.update( office );
 
     if( result.getBody() )
     {
-      this.redis.delete( this.getOfficeKey( officeCode ) );
+      this.redis.delete( this.getOfficeKey( officeId ) );
     }
 
     return ResponseEntity.ok( result );
@@ -158,15 +153,14 @@ public class OfficeController
    * @return
    */
   @JsonResponseInterceptor
-  @DeleteMapping(path = "/{officeCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(path = "/{officeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Elimina una oficina", summary = "Elimina una oficina")
-  public ResponseEntity<GenericResponseDto<Boolean>> delete( @PathVariable("officeCode")
-  String officeCode )
+  public ResponseEntity<GenericResponseDto<Boolean>> delete( @PathVariable("officeId") Integer officeId )
   {
-    var result = this.officeFacade.delete( officeCode );
+    var result = this.officeFacade.delete( officeId );
     if( result.getBody() )
     {
-      this.redis.delete( this.getOfficeKey( officeCode ) );
+      this.redis.delete( this.getOfficeKey( officeId ) );
     }
     return ResponseEntity.ok( result );
   }

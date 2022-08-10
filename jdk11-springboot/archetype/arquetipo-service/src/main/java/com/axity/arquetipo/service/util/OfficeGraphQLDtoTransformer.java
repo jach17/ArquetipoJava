@@ -26,7 +26,7 @@ public final class OfficeGraphQLDtoTransformer
     if( entity != null )
     {
       office = new OfficeGraphQLDto();
-      office.setOfficeCode( entity.getOfficeCode() );
+      office.setId( entity.getId() );
       office.setCity( entity.getCity() );
       office.setPhone( entity.getPhone() );
       office.setAddressLine1( entity.getAddressLine1() );

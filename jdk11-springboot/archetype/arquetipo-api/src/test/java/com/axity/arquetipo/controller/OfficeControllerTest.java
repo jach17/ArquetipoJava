@@ -2,6 +2,7 @@ package com.axity.arquetipo.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -79,7 +80,7 @@ class OfficeControllerTest
         .andExpect( jsonPath( "$.page" ).value( "0" ) )
         .andExpect( jsonPath( "$.size" ).value( "20" ) )
         .andExpect( jsonPath( "$.data" ).isArray() )
-        .andExpect( jsonPath( "$.data[0].officeId" ).value( "1" ) ).andReturn();
+        .andExpect( jsonPath( "$.data[0].id" ).value( 1 ) ).andReturn();
 
     assertNotNull( result );
   }
@@ -92,12 +93,12 @@ class OfficeControllerTest
   {
     var office = this.createOffice( 1 );
     var generic = new GenericResponseDto<>(office);
-    when( this.officeFacade.find( anyString() ) ).thenReturn( generic );
+    when( this.officeFacade.find( anyInt() ) ).thenReturn( generic );
     
     MvcResult result = mockMvc.perform( MockMvcRequestBuilders.get( "/api/offices/1" ) )
         .andExpect( status().isOk() )
         .andExpect( jsonPath( "$.header.code" ).value( "0" ) )
-        .andExpect( jsonPath( "$.body.officeId" ).value( "1" ) ).andReturn();
+        .andExpect( jsonPath( "$.body.id" ).value( 1 ) ).andReturn();
 
     assertNotNull( result );
   }
@@ -109,7 +110,7 @@ class OfficeControllerTest
   @Test
   void testCreate() throws Exception
   {
-    var office = this.createOffice( 9 );
+    var office = this.createOffice( 1 );
     var generic = new GenericResponseDto<>(office);
     when(this.officeFacade.create( any( OfficeDto.class ) )).thenReturn( generic );
     
@@ -121,7 +122,7 @@ class OfficeControllerTest
             .contentType( MediaType.APPLICATION_JSON ))
         .andExpect( status().isCreated() )
         .andExpect( jsonPath( "$.header.code" ).value( "0" ) )
-        .andExpect( jsonPath( "$.body.officeId" ).value( "9" ) ).andReturn();
+        .andExpect( jsonPath( "$.body.id" ).value( 1 ) ).andReturn();
 
     assertNotNull( result );
   }
@@ -157,7 +158,7 @@ class OfficeControllerTest
   void testDelete() throws Exception
   {
     var generic = new GenericResponseDto<>(true);
-    when(this.officeFacade.delete( anyString() )).thenReturn( generic );
+    when(this.officeFacade.delete( anyInt() )).thenReturn( generic );
     
     MvcResult result = mockMvc.perform( MockMvcRequestBuilders.delete( "/api/offices/1"  )
             .accept( MediaType.APPLICATION_JSON ))
@@ -171,7 +172,7 @@ class OfficeControllerTest
   private OfficeDto createOffice( int i )
   {
     var office = new OfficeDto();
-    office.setOfficeCode( String.valueOf( i ) );
+    office.setId( i );
     return office;
   }
 }

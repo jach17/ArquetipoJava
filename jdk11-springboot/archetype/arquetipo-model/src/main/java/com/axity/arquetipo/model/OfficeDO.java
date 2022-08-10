@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -25,31 +27,32 @@ public class OfficeDO implements Serializable
   private static final long serialVersionUID = -5035830587965574416L;
 
   @Id
-  @Column(name = "officeCode", length = 10)
-  private String officeCode;
+  @Column(name = "cd_id", length = 10)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-  @Column(name = "city", nullable = false, length = 50)
+  @Column(name = "nb_city", nullable = false, length = 50)
   private String city;
 
-  @Column(name = "phone", nullable = false, length = 50)
+  @Column(name = "nb_phone", nullable = false, length = 50)
   private String phone;
 
-  @Column(name = "addressLine1", nullable = false, length = 50)
+  @Column(name = "nb_addressLine1", nullable = false, length = 50)
   private String addressLine1;
 
-  @Column(name = "addressLine2", nullable = true, length = 50)
+  @Column(name = "nb_addressLine2", nullable = true, length = 50)
   private String addressLine2;
 
-  @Column(name = "state", nullable = true, length = 50)
+  @Column(name = "nb_state", nullable = true, length = 50)
   private String state;
 
-  @Column(name = "country", nullable = false, length = 50)
+  @Column(name = "nb_country", nullable = false, length = 50)
   private String country;
 
-  @Column(name = "postalCode", nullable = false, length = 15)
+  @Column(name = "nb_postalCode", nullable = false, length = 15)
   private String postalCode;
 
-  @Column(name = "territory", nullable = false, length = 10)
+  @Column(name = "nb_territory", nullable = false, length = 10)
   private String territory;
 
   /**
@@ -67,7 +70,7 @@ public class OfficeDO implements Serializable
     {
       OfficeDO that = (OfficeDO) object;
 
-      isEquals = Objects.equals( this.officeCode, that.officeCode );
+      isEquals = Objects.equals( this.id, that.id );
     }
     return isEquals;
   }
@@ -78,7 +81,7 @@ public class OfficeDO implements Serializable
   @Override
   public int hashCode()
   {
-    return Objects.hash( this.officeCode );
+    return Objects.hash( this.id );
   }
 
 }

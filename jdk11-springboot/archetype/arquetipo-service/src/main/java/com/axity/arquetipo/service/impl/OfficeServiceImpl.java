@@ -83,11 +83,11 @@ public class OfficeServiceImpl implements OfficeService
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<OfficeDto> find( String officeCode )
+  public GenericResponseDto<OfficeDto> find( Integer id )
   {
     GenericResponseDto<OfficeDto> response = null;
 
-    var optional = this.officePersistence.findById( officeCode );
+    var optional = this.officePersistence.findById( id );
     if( optional.isPresent() )
     {
       response = new GenericResponseDto<>();
@@ -103,17 +103,12 @@ public class OfficeServiceImpl implements OfficeService
   @Override
   public GenericResponseDto<OfficeDto> create( OfficeDto office )
   {
-
-    var saved = this.find( office.getOfficeCode() );
-    if( saved != null )
-    {
-      throw new BusinessException( ErrorCode.OFFICE_ALREADY_EXISTS );
-    }
-
     OfficeDO entity = new OfficeDO();
     this.mapper.map( office, entity );
+    entity.setId( null );
 
     this.officePersistence.save( entity );
+    office.setId( entity.getId() );
 
     Gson gson = new GsonBuilder().create();
     var message = new MessageDto( "Se creo entidad:", gson.toJson( office ) );
@@ -129,7 +124,7 @@ public class OfficeServiceImpl implements OfficeService
   @Override
   public GenericResponseDto<Boolean> update( OfficeDto office )
   {
-    var optional = this.officePersistence.findById( office.getOfficeCode() );
+    var optional = this.officePersistence.findById( office.getId() );
     if( optional.isEmpty() )
     {
       throw new BusinessException( ErrorCode.OFFICE_NOT_FOUND );
@@ -152,9 +147,9 @@ public class OfficeServiceImpl implements OfficeService
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<Boolean> delete( String officeCode )
+  public GenericResponseDto<Boolean> delete( Integer id )
   {
-    var optional = this.officePersistence.findById( officeCode );
+    var optional = this.officePersistence.findById( id );
     if( optional.isEmpty() )
     {
       throw new BusinessException( ErrorCode.OFFICE_NOT_FOUND );
@@ -206,8 +201,7 @@ public class OfficeServiceImpl implements OfficeService
     var predicates = new ArrayList<Predicate>();
     if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
     {
-      OfficePredicate.evaluateOfficeOfficeCode( wrapper.getQuery().getOfficeCode(), office, predicates );
-      OfficePredicate.evaluateOfficeOfficeCode( wrapper.getQuery().getOfficeCode(), office, predicates );
+      OfficePredicate.evaluateOfficeId( wrapper.getQuery().getId(), office, predicates );
       OfficePredicate.evaluateOfficeCity( wrapper.getQuery().getCity(), office, predicates );
       OfficePredicate.evaluateOfficePhone( wrapper.getQuery().getPhone(), office, predicates );
       OfficePredicate.evaluateOfficeAddressLine1( wrapper.getQuery().getAddressLine1(), office, predicates );

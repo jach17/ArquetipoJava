@@ -39,9 +39,9 @@ public class OfficeFacadeImpl implements OfficeFacade
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<OfficeDto> find( String officeCode )
+  public GenericResponseDto<OfficeDto> find( Integer id )
   {
-    return this.officeService.find( officeCode );
+    return this.officeService.find( id );
   }
 
   /**
@@ -66,9 +66,9 @@ public class OfficeFacadeImpl implements OfficeFacade
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<Boolean> delete( String officeCode )
+  public GenericResponseDto<Boolean> delete( Integer officeid )
   {
-    return this.officeService.delete( officeCode );
+    return this.officeService.delete( officeid );
   }
 
   /**
