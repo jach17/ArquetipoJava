@@ -23,11 +23,11 @@ public final class [%= namecamel %]Predicate
    * @param [%= namelower %]
    * @param predicates
    */
-  public static void evaluate[%= namecamel %][%= namecamel %]Id( Integer [%= namelower %]Id, Q[%= namecamel %]DO [%= namelower %], ArrayList<Predicate> predicates )
+  public static void evaluate[%= namecamel %]Id( Integer [%= namelower %]Id, Q[%= namecamel %]DO [%= namelower %], ArrayList<Predicate> predicates )
   {
     if( [%= namelower %]Id != null)
     {
-      predicates.add( [%= namelower %].[%= namelower %]Code.eq( [%= namelower %]Id ) );
+      predicates.add( [%= namelower %].id.eq( [%= namelower %]Id ) );
     }
   }
 

@@ -13,7 +13,7 @@ import com.[%= companylower %].[%= namelower %].model.[%= namecamel %]DO;
  * @author [%= username %]
  */
 @Repository
-public interface [%= namecamel %]Persistence extends JpaRepository<[%= namecamel %]DO, String>
+public interface [%= namecamel %]Persistence extends JpaRepository<[%= namecamel %]DO, Integer>
 {
   
   /**

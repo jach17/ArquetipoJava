@@ -85,7 +85,7 @@ public class [%= namecamel %]ServiceImpl implements [%= namecamel %]Service
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<[%= namecamel %]Dto> find( String [%= namelower %]Id )
+  public GenericResponseDto<[%= namecamel %]Dto> find( Integer [%= namelower %]Id )
   {
     GenericResponseDto<[%= namecamel %]Dto> response = null;
 
@@ -108,7 +108,7 @@ public class [%= namecamel %]ServiceImpl implements [%= namecamel %]Service
 
     [%= namecamel %]DO entity = new [%= namecamel %]DO();
     this.mapper.map( [%= namelower %], entity );
-    entity.id = null;
+    entity.setId(null);
 
     this.[%= namelower %]Persistence.save( entity );
 
@@ -205,8 +205,7 @@ public class [%= namecamel %]ServiceImpl implements [%= namecamel %]Service
     var predicates = new ArrayList<Predicate>();
     if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
     {
-      [%= namecamel %]Predicate.evaluate[%= namecamel %][%= namecamel %]Code( wrapper.getQuery().get[%= namecamel %]Code(), [%= namelower %], predicates );
-      [%= namecamel %]Predicate.evaluate[%= namecamel %][%= namecamel %]Code( wrapper.getQuery().get[%= namecamel %]Code(), [%= namelower %], predicates );
+      [%= namecamel %]Predicate.evaluate[%= namecamel %]Id( wrapper.getQuery().getId(), [%= namelower %], predicates );
       [%= namecamel %]Predicate.evaluate[%= namecamel %]City( wrapper.getQuery().getCity(), [%= namelower %], predicates );
       [%= namecamel %]Predicate.evaluate[%= namecamel %]Phone( wrapper.getQuery().getPhone(), [%= namelower %], predicates );
       [%= namecamel %]Predicate.evaluate[%= namecamel %]AddressLine1( wrapper.getQuery().getAddressLine1(), [%= namelower %], predicates );

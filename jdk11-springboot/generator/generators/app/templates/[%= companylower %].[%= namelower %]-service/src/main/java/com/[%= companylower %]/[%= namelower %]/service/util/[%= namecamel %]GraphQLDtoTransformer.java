@@ -26,7 +26,7 @@ public final class [%= namecamel %]GraphQLDtoTransformer
     if( entity != null )
     {
       [%= namelower %] = new [%= namecamel %]GraphQLDto();
-      [%= namelower %].set[%= namecamel %]Code( entity.get[%= namecamel %]Code() );
+      [%= namelower %].setId( entity.getId() );
       [%= namelower %].setCity( entity.getCity() );
       [%= namelower %].setPhone( entity.getPhone() );
       [%= namelower %].setAddressLine1( entity.getAddressLine1() );

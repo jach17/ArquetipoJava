@@ -56,7 +56,7 @@ public interface [%= namecamel %]Facade
    * @param [%= namelower %]Code
    * @return
    */
-  GenericResponseDto<Boolean> delete( String [%= namelower %]Code );
+  GenericResponseDto<Boolean> delete( Integer [%= namelower %]Id );
 
   /**
    * Method to query by example

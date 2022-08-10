@@ -1,6 +1,6 @@
 package com.[%= companylower %].[%= namelower %].commons.request.graphql;
 
-import com.[%= companylower %].[%= namelower %].commons.response.graphql.OfficeGraphQLDto;
+import com.[%= companylower %].[%= namelower %].commons.response.graphql.[%= namecamel %]GraphQLDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +12,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class OfficeQueryDto
+public class [%= namecamel %]QueryDto
 {
-  private OfficeGraphQLDto query;
+  private [%= namecamel %]GraphQLDto query;
   private int page = 0;
   private int size = 50;
 }

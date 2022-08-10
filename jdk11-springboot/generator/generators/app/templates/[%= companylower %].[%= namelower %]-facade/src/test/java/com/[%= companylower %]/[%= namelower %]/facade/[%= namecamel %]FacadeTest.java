@@ -2,6 +2,7 @@ package com.[%= companylower %].[%= namelower %].facade;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,9 +70,9 @@ class [%= namecamel %]FacadeTest
   void testFind()
   {
     var response = new GenericResponseDto<[%= namecamel %]Dto>( this.create[%= namecamel %]( 1 ) );
-    when( this.[%= namelower %]Service.find( any( String.class ) ) ).thenReturn( response );
+    when( this.[%= namelower %]Service.find( anyInt() ) ).thenReturn( response );
 
-    var result = this.[%= namelower %]Facade.find( "1" );
+    var result = this.[%= namelower %]Facade.find( 1 );
     assertNotNull( result );
   }
 
@@ -112,16 +113,16 @@ class [%= namecamel %]FacadeTest
   void testDelete()
   {
     var response = new GenericResponseDto<>( true );
-    when( this.[%= namelower %]Service.delete( any( String.class ) ) ).thenReturn( response );
+    when( this.[%= namelower %]Service.delete( anyInt() ) ).thenReturn( response );
 
-    var result = this.[%= namelower %]Facade.delete( "9" );
+    var result = this.[%= namelower %]Facade.delete( 9 );
     assertNotNull( result );
   }
 
   private [%= namecamel %]Dto create[%= namecamel %]( int i )
   {
     var [%= namelower %] = new [%= namecamel %]Dto();
-    [%= namelower %].set[%= namecamel %]Code( String.valueOf( i ) );
+    [%= namelower %].setId( i );
     return [%= namelower %];
   }
 

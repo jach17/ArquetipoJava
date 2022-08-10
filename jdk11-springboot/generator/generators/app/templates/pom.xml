@@ -6,8 +6,8 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.7.1</version>
   </parent>
-  <groupId>com.[%= company %]</groupId>
-  <artifactId>[%= name %]</artifactId>
+  <groupId>com.[%= companylower %]</groupId>
+  <artifactId>[%= namelower %]</artifactId>
   <version>0.0.1</version>
   <packaging>pom</packaging>
   <name>Arquetipo Base de SpringBoot</name>
@@ -160,11 +160,11 @@
   </build>
 
   <modules>
-    <module>[%= company %].[%= name %]-commons</module>
-    <module>[%= company %].[%= name %]-model</module>
-    <module>[%= company %].[%= name %]-persistence</module>
-    <module>[%= company %].[%= name %]-service</module>
-    <module>[%= company %].[%= name %]-facade</module>
-    <module>[%= company %].[%= name %]-api</module>
+    <module>[%= companylower %].[%= namelower %]-commons</module>
+    <module>[%= companylower %].[%= namelower %]-model</module>
+    <module>[%= companylower %].[%= namelower %]-persistence</module>
+    <module>[%= companylower %].[%= namelower %]-service</module>
+    <module>[%= companylower %].[%= namelower %]-facade</module>
+    <module>[%= companylower %].[%= namelower %]-api</module>
   </modules>
 </project>

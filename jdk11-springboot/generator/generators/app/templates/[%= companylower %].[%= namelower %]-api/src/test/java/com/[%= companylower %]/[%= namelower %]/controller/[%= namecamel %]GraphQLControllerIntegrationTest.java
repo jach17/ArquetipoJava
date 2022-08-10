@@ -28,13 +28,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class OfficeGraphQLControllerIntegrationTest
+public class [%= namecamel %]GraphQLControllerIntegrationTest
 {
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  void testOffices() throws Exception
+  void test[%= namecamel %]s() throws Exception
   {
     String query = "query {\r\n"
         + "    offices (query : {\r\n"

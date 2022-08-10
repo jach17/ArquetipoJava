@@ -67,9 +67,9 @@ public class [%= namecamel %]FacadeImpl implements [%= namecamel %]Facade
    * {@inheritDoc}
    */
   @Override
-  public GenericResponseDto<Boolean> delete( String [%= namelower %]Code )
+  public GenericResponseDto<Boolean> delete( Integer [%= namelower %]Id )
   {
-    return this.[%= namelower %]Service.delete( [%= namelower %]Code );
+    return this.[%= namelower %]Service.delete( [%= namelower %]Id );
   }
 
   /**

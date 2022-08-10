@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class [%= namecamel %]GraphQLDto
 {
-  private String officeCode;
+  private Integer id;
   private String city;
   private String phone;
   private String addressLine1;

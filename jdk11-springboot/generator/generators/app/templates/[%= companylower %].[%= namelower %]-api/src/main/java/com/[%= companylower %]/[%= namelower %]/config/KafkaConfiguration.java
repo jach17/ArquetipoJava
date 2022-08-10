@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import com.[%= companylower %].[%= namelower %].facade.OfficeFacade;
+import com.[%= companylower %].[%= namelower %].facade.[%= namecamel %]Facade;
 
 import lombok.extern.slf4j.Slf4j;
 

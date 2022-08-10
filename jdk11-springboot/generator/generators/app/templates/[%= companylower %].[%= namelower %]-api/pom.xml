@@ -2,16 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.[%= company %]</groupId>
-    <artifactId>[%= name %]</artifactId>
+    <groupId>com.[%= companylower %]</groupId>
+    <artifactId>[%= namelower %]</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>[%= name %]-api</artifactId>
+  <artifactId>[%= namelower %]-api</artifactId>
 
   <dependencies>
     <dependency>
-      <groupId>com.[%= company %]</groupId>
-      <artifactId>[%= name %]-facade</artifactId>
+      <groupId>com.[%= companylower %]</groupId>
+      <artifactId>[%= namelower %]-facade</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
   </dependencies>

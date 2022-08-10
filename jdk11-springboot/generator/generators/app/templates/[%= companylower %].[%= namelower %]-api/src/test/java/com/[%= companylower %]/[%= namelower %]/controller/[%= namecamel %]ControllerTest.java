@@ -3,6 +3,7 @@ package com.[%= companylower %].[%= namelower %].controller;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,7 +97,7 @@ class [%= namecamel %]ControllerTest
   {
     var [%= namelower %] = this.create[%= namecamel %]( 1 );
     var generic = new GenericResponseDto<>([%= namelower %]);
-    when( this.[%= namelower %]Facade.find( anyString() ) ).thenReturn( generic );
+    when( this.[%= namelower %]Facade.find( anyInt() ) ).thenReturn( generic );
     
     MvcResult result = mockMvc.perform( MockMvcRequestBuilders.get( "/api/[%= namelower %]s/1" ) )
         .andExpect( status().isOk() )
@@ -167,7 +168,7 @@ class [%= namecamel %]ControllerTest
   void testDelete() throws Exception
   {
     var generic = new GenericResponseDto<>(true);
-    when(this.[%= namelower %]Facade.delete( anyString() )).thenReturn( generic );
+    when(this.[%= namelower %]Facade.delete( anyInt() )).thenReturn( generic );
     
     MvcResult result = mockMvc.perform( MockMvcRequestBuilders.delete( "/api/[%= namelower %]s/1"  )
             .accept( MediaType.APPLICATION_JSON ))
@@ -181,7 +182,7 @@ class [%= namecamel %]ControllerTest
   private [%= namecamel %]Dto create[%= namecamel %]( int i )
   {
     var [%= namelower %] = new [%= namecamel %]Dto();
-    [%= namelower %].set[%= namecamel %]Code( String.valueOf( i ) );
+    [%= namelower %].setId( i );
     return [%= namelower %];
   }
 }

@@ -77,7 +77,7 @@ class [%= namecamel %]ServiceTest
   @Test
   void testFind_NotExists()
   {
-    var [%= namelower %] = this.[%= namelower %]Service.find( "999999" );
+    var [%= namelower %] = this.[%= namelower %]Service.find( 999999 );
     assertNull( [%= namelower %] );
   }
 
@@ -164,7 +164,7 @@ class [%= namecamel %]ServiceTest
    * Test method to validate a query by example with id
    */
   @ParameterizedTest()
-  @ValueSource(int = { 1, 2, 3, 4, 5, 6, 7 })
+  @ValueSource(ints = { 1, 2, 3, 4, 5, 6, 7 })
   void testFindGraphQL_[%= namelower %]Code( Integer [%= namelower %]Id )
   {
     var query = new [%= namecamel %]QueryDto();

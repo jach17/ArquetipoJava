@@ -54,10 +54,10 @@ public interface [%= namecamel %]Service
   /**
    * Method to delete a [%= namecamel %]
    * 
-   * @param [%= namelower %]Code
+   * @param [%= namelower %]Id
    * @return
    */
-  GenericResponseDto<Boolean> delete( String [%= namelower %]Code );
+  GenericResponseDto<Boolean> delete( Integer [%= namelower %]Id );
 
   /**
    * Method to query by example
