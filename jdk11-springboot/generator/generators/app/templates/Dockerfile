@@ -1,8 +1,13 @@
 FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
+
+WORKDIR /home/app
+COPY . ./
 RUN mvn -f /home/app/pom.xml clean package
-FROM openjdk:11
-ENV JAR_FILE /home/app/target/*.jar
+FROM openjdk:alpine-11
+ENV JAR_FILE /home/app/[%= companylower %].[%= namelower %]-api/target/*.jar
 COPY --from=build ${JAR_FILE} /app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","--spring.profiles.active=dev" ]
+
+ENV TZ America/Mexico_City
+EXPOSE [%= port %]
+
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","--spring.profiles.active=local" ]

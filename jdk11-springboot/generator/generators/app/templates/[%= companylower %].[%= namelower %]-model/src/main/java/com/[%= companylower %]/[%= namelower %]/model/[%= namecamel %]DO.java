@@ -19,7 +19,7 @@ import lombok.Setter;
  * @author [%= username %]
  */
 @Entity
-@Table(name = "[%= namelower %]")
+@Table(name = "TBL_[%= namelower %]")
 @Getter
 @Setter
 public class [%= namecamel %]DO implements Serializable
