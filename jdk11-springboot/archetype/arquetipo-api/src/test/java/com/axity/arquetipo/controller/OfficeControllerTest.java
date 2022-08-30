@@ -126,7 +126,7 @@ class OfficeControllerTest
 
     assertNotNull( result );
   }
-
+  
   /**
    * Test method for
    * {@link com.axity.arquetipo.controller.OfficeController#update(java.lang.String, com.axity.arquetipo.commons.dto.OfficeDto)}.

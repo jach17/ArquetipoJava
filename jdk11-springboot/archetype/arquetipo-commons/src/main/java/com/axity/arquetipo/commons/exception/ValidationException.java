@@ -13,7 +13,7 @@ import lombok.Getter;
 public class ValidationException extends RuntimeException
 {
   private static final long serialVersionUID = 7665760496552274896L;
-  private int code;
+  private final int code;
 
   /**
    * Instantiates a new internal error exception.

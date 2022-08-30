@@ -17,6 +17,7 @@
     <java.version>11</java.version>
     <jackson.version>2.13.3</jackson.version>
     <maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
+    <jacoco.version>0.8.6</jacoco.version>
   </properties>
   <dependencies>
     <dependency>
@@ -155,6 +156,26 @@
           <target>${java.version}</target>
           <encoding>${project.encoding}</encoding>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

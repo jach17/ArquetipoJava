@@ -1,5 +1,7 @@
 package com.axity.arquetipo.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +24,6 @@ import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.PaginatedResponseDto;
 import com.axity.arquetipo.facade.OfficeFacade;
 import com.axity.arquetipo.persistence.redis.StringRedisRepository;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -76,7 +77,7 @@ public class OfficeController
 
     String key = getOfficeKey( officeId );
 
-    Gson gson = new GsonBuilder().create();
+    var gson = new GsonBuilder().create();
     GenericResponseDto<OfficeDto> result = null;
     if( redis.hasKey( key ) )
     {
@@ -116,7 +117,7 @@ public class OfficeController
   @JsonResponseInterceptor
   @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(tags = "Offices", description = "Crea una oficina", summary = "Crea una oficina")
-  public ResponseEntity<GenericResponseDto<OfficeDto>> create( @RequestBody OfficeDto office )
+  public ResponseEntity<GenericResponseDto<OfficeDto>> create( @Valid @RequestBody OfficeDto office )
   {
     var result = this.officeFacade.create( office );
     return new ResponseEntity<>( result, HttpStatus.CREATED );
@@ -138,7 +139,7 @@ public class OfficeController
     office.setId( officeId );
     var result = this.officeFacade.update( office );
 
-    if( result.getBody() )
+    if( Boolean.TRUE.equals( result.getBody()) )
     {
       this.redis.delete( this.getOfficeKey( officeId ) );
     }
@@ -158,7 +159,7 @@ public class OfficeController
   public ResponseEntity<GenericResponseDto<Boolean>> delete( @PathVariable("officeId") Integer officeId )
   {
     var result = this.officeFacade.delete( officeId );
-    if( result.getBody() )
+    if( Boolean.TRUE.equals( result.getBody()) )
     {
       this.redis.delete( this.getOfficeKey( officeId ) );
     }

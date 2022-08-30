@@ -1,6 +1,6 @@
 package com.axity.arquetipo.service.helper;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,7 +21,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeId( Integer id, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeId( Integer id, QOfficeDO office, List<Predicate> predicates )
   {
     if( id != null )
     {
@@ -34,7 +34,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeCity( String city, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeCity( String city, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( city ) )
     {
@@ -47,7 +47,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficePhone( String phone, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficePhone( String phone, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( phone ) )
     {
@@ -61,7 +61,7 @@ public final class OfficePredicate
    * @param predicates
    */
   public static void evaluateOfficeAddressLine1( String addressLine1, QOfficeDO office,
-      ArrayList<Predicate> predicates )
+      List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( addressLine1 ) )
     {
@@ -75,7 +75,7 @@ public final class OfficePredicate
    * @param predicates
    */
   public static void evaluateOfficeAddressLine2( String addressLine2, QOfficeDO office,
-      ArrayList<Predicate> predicates )
+      List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( addressLine2 ) )
     {
@@ -88,7 +88,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeState( String state, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeState( String state, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( state ) )
     {
@@ -101,7 +101,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeCountry( String country, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeCountry( String country, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( country ) )
     {
@@ -114,7 +114,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficeTerritory( String territory, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficeTerritory( String territory, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( territory ) )
     {
@@ -127,7 +127,7 @@ public final class OfficePredicate
    * @param office
    * @param predicates
    */
-  public static void evaluateOfficePostalCode( String postalCode, QOfficeDO office, ArrayList<Predicate> predicates )
+  public static void evaluateOfficePostalCode( String postalCode, QOfficeDO office, List<Predicate> predicates )
   {
     if( StringUtils.isNotBlank( postalCode ) )
     {

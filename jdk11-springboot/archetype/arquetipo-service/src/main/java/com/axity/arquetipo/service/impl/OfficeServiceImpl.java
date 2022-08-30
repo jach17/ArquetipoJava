@@ -31,7 +31,6 @@ import com.axity.arquetipo.service.OfficeService;
 import com.axity.arquetipo.service.helper.OfficePredicate;
 import com.axity.arquetipo.service.util.OfficeGraphQLDtoTransformer;
 import com.github.dozermapper.core.Mapper;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
@@ -103,14 +102,14 @@ public class OfficeServiceImpl implements OfficeService
   @Override
   public GenericResponseDto<OfficeDto> create( OfficeDto office )
   {
-    OfficeDO entity = new OfficeDO();
+    var entity = new OfficeDO();
     this.mapper.map( office, entity );
     entity.setId( null );
 
     this.officePersistence.save( entity );
     office.setId( entity.getId() );
 
-    Gson gson = new GsonBuilder().create();
+    var gson = new GsonBuilder().create();
     var message = new MessageDto( "Se creo entidad:", gson.toJson( office ) );
 
     this.template.send( "test", gson.toJson( message ) );
@@ -165,7 +164,7 @@ public class OfficeServiceImpl implements OfficeService
   public List<OfficeGraphQLDto> findGraphQL( OfficeQueryDto query, DataFetchingEnvironment env )
   {
     var office = QOfficeDO.officeDO;
-    var predicates = this.getEmployeePredicates( office, query, true );
+    var predicates = this.getEmployeePredicates( office, query);
 
     return this.processPredicate( predicates, query );
   }
@@ -177,7 +176,7 @@ public class OfficeServiceImpl implements OfficeService
   {
     log.info( "-> Mensaje: {}", message );
 
-    Gson gson = new GsonBuilder().create();
+    var gson = new GsonBuilder().create();
 
     var obj = gson.fromJson( message, MessageDto.class );
 
@@ -196,7 +195,7 @@ public class OfficeServiceImpl implements OfficeService
     return dto;
   }
 
-  private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper, boolean checkSupervisor )
+  private List<Predicate> getEmployeePredicates( QOfficeDO office, OfficeQueryDto wrapper )
   {
     var predicates = new ArrayList<Predicate>();
     if( Stream.of( wrapper, wrapper.getQuery() ).allMatch( Objects::nonNull ) )
@@ -219,12 +218,12 @@ public class OfficeServiceImpl implements OfficeService
   {
     var offices = new ArrayList<OfficeGraphQLDto>();
 
-    Pageable pageable = extractPageable( query );
+    var pageable = extractPageable( query );
 
     if( predicates.isEmpty() )
     {
       var result = this.officeGraphQLRepository.findAll( pageable );
-      offices.addAll( result.stream().map( officeDO -> OfficeGraphQLDtoTransformer.transform( officeDO ) )
+      offices.addAll( result.stream().map( OfficeGraphQLDtoTransformer::transform )
           .collect( Collectors.toList() ) );
     }
     else

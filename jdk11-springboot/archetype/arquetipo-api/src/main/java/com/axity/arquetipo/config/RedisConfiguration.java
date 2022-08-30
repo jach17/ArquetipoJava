@@ -34,7 +34,7 @@ public class RedisConfiguration
   private String password;
 
   @Bean
-  JedisConnectionFactory jedisConnectionFactory()
+  public JedisConnectionFactory jedisConnectionFactory()
   {
     log.info( "->redis host: {}", this.hostname );
     log.info( "->redis port: {}", this.port );

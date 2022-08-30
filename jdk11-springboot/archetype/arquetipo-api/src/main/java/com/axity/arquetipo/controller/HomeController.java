@@ -18,7 +18,7 @@ public class HomeController
   @GetMapping("/")
   public ModelAndView hello()
   {
-    ModelAndView mv = new ModelAndView();
+    var mv = new ModelAndView();
     mv.setViewName( "index" );
     mv.addObject( "message", applicationName );
     return mv;
