@@ -1,8 +1,6 @@
 package com.axity.arquetipo.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,14 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.axity.arquetipo.commons.dto.OfficeDto;
-import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.persistence.redis.StringRedisRepository;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@DirtiesContext
+@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 class OfficeControllerIntegrationTest
 {
   @Autowired
@@ -39,12 +39,6 @@ class OfficeControllerIntegrationTest
   @MockBean
   private StringRedisRepository redis;
   
-  @Test
-  void test()
-  {
-    fail( "Not yet implemented" );
-  }
-
   /**
    * Test method for
    * {@link com.axity.arquetipo.controller.OfficeController#create(com.axity.arquetipo.commons.dto.OfficeDto)}.
@@ -70,7 +64,7 @@ class OfficeControllerIntegrationTest
             .contentType( MediaType.APPLICATION_JSON ))
         .andExpect( status().isCreated() )
         .andExpect( jsonPath( "$.header.code" ).value( "0" ) )
-        .andExpect( jsonPath( "$.body.id" ).value( 1 ) ).andReturn();
+        .andExpect( jsonPath( "$.body.id" ).value( 100 ) ).andReturn();
 
     assertNotNull( result );
   }

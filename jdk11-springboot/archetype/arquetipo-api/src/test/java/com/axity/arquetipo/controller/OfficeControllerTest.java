@@ -110,8 +110,18 @@ class OfficeControllerTest
   @Test
   void testCreate() throws Exception
   {
-    var office = this.createOffice( 1 );
+    var office = new OfficeDto();
+    office.setCity( "CDMX" );
+    office.setTerritory( "LATAM" );
+    office.setState( "CDMX" );
+    office.setAddressLine1( "Address" );
+    office.setAddressLine2( "Address" );
+    office.setCountry( "Mexico" );
+    office.setPhone( "5555555" );
+    office.setPostalCode( "55555" );
+    
     var generic = new GenericResponseDto<>(office);
+    generic.getBody().setId( 1 );
     when(this.officeFacade.create( any( OfficeDto.class ) )).thenReturn( generic );
     
     Gson gson = new GsonBuilder().create();
@@ -172,7 +182,7 @@ class OfficeControllerTest
   private OfficeDto createOffice( int i )
   {
     var office = new OfficeDto();
-    office.setId( i );
+    office.setId( 1 );
     return office;
   }
 }
