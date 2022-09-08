@@ -1,5 +1,8 @@
 package com.axity.arquetipo;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,4 +18,8 @@ public class ApplicationTest
     SpringApplication.run( ApplicationTest.class, args );
   }
 
+  @Test
+  void test() {
+    assertTrue( true );
+  }
 }

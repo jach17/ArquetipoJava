@@ -1,5 +1,7 @@
 package com.axity.arquetipo.service.util;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +19,9 @@ public class DozerConfig
 {
   @Bean
   public DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean( @Value("classpath*:mappings/*mappings.xml")
-  Resource[] resources ) throws Exception
+  Resource[] resources ) throws IOException 
   {
-    final DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean = new DozerBeanMapperFactoryBean();
+    final var dozerBeanMapperFactoryBean = new DozerBeanMapperFactoryBean();
     dozerBeanMapperFactoryBean.setMappingFiles( resources );
     return dozerBeanMapperFactoryBean;
   }

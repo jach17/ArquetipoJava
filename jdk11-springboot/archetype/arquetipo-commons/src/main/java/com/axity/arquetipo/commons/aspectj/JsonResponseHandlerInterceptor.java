@@ -4,8 +4,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -20,6 +18,8 @@ import com.axity.arquetipo.commons.exception.ValidationException;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
 import com.axity.arquetipo.commons.response.HeaderDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Aspecto para interceptar los errores
  * 
@@ -27,11 +27,10 @@ import com.axity.arquetipo.commons.response.HeaderDto;
  */
 @Aspect
 @Component
+@Slf4j
 public class JsonResponseHandlerInterceptor implements HandlerInterceptor
 {
   private static final String ARCHETYPE_ERROR = "arquetipo.error.%d";
-
-  private static final Logger LOG = LoggerFactory.getLogger( JsonResponseHandlerInterceptor.class );
 
   @Autowired
   private Environment env;
@@ -46,11 +45,15 @@ public class JsonResponseHandlerInterceptor implements HandlerInterceptor
     Object result = null;
     try
     {
-      LOG.debug( pjp.toLongString() );
+      if( log.isDebugEnabled() )
+      {
+        log.debug( pjp.toLongString() );
+      }
       result = pjp.proceed();
     }
-    catch (ValidationException e) {
-      LOG.error( e.getMessage(), e );
+    catch( ValidationException e )
+    {
+      log.error( e.getMessage(), e );
 
       var genericResponse = new GenericResponseDto<>();
       var header = new HeaderDto();
@@ -61,7 +64,7 @@ public class JsonResponseHandlerInterceptor implements HandlerInterceptor
     }
     catch( BusinessException e )
     {
-      LOG.error( e.getMessage(), e );
+      log.error( e.getMessage(), e );
 
       var genericResponse = new GenericResponseDto<>();
       var header = new HeaderDto();
@@ -73,12 +76,11 @@ public class JsonResponseHandlerInterceptor implements HandlerInterceptor
     }
     catch( Exception e )
     {
-      LOG.error( e.getMessage(), e );
+      log.error( e.getMessage(), e );
 
       var genericResponse = new GenericResponseDto<>();
       var header = new HeaderDto();
-      header.setMessage(
-        this.env.getProperty( String.format( ARCHETYPE_ERROR, ErrorCode.UNKNOWN_ERROR.getCode() ) ) );
+      header.setMessage( this.env.getProperty( String.format( ARCHETYPE_ERROR, ErrorCode.UNKNOWN_ERROR.getCode() ) ) );
       header.setCode( ErrorCode.UNKNOWN_ERROR.getCode() );
 
       if( this.allowTrace )
