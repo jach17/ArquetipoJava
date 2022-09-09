@@ -1,5 +1,6 @@
 package com.axity.arquetipo.commons.aspectj;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,6 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.axity.arquetipo.commons.enums.ErrorCode;
 import com.axity.arquetipo.commons.exception.BusinessException;
 import com.axity.arquetipo.commons.exception.ValidationException;
 import com.axity.arquetipo.commons.response.GenericResponseDto;
@@ -58,9 +60,9 @@ class JsonResponseHandlerInterceptorTest
     assertNotNull( response.getHeaders() );
     assertNotNull( response.getBody() );
     assertInstanceOf( GenericResponseDto.class, response.getBody() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getCode() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
+    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(), ((GenericResponseDto) response.getBody()).getHeader().getCode() );
   }
 
   @Test
@@ -78,16 +80,16 @@ class JsonResponseHandlerInterceptorTest
     assertNotNull( response.getHeaders() );
     assertNotNull( response.getBody() );
     assertInstanceOf( GenericResponseDto.class, response.getBody() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getCode() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
+    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(), ((GenericResponseDto) response.getBody()).getHeader().getCode() );
   }
-  
+
   @Test
   void testInterceptMethodAdvice_throwsExceptionWithTrace() throws Throwable
   {
     ReflectionTestUtils.setField( interceptor, "allowTrace", true );
-    
+
     var pjp = mock( ProceedingJoinPoint.class );
     when( pjp.toLongString() ).thenReturn( "mocked" );
     when( pjp.proceed() ).thenThrow( new IllegalArgumentException( "An error has occurred!!!" ) );
@@ -100,17 +102,18 @@ class JsonResponseHandlerInterceptorTest
     assertNotNull( response.getHeaders() );
     assertNotNull( response.getBody() );
     assertInstanceOf( GenericResponseDto.class, response.getBody() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getCode() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getDetail() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getCode() );
+    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(),
+      ((GenericResponseDto) response.getBody()).getHeader().getDetail() );
   }
-  
+
   @Test
   void testInterceptMethodAdvice_throwsExceptionWithouTrace() throws Throwable
   {
     ReflectionTestUtils.setField( interceptor, "allowTrace", false );
-    
+
     var pjp = mock( ProceedingJoinPoint.class );
     when( pjp.toLongString() ).thenReturn( "mocked" );
     when( pjp.proceed() ).thenThrow( new IllegalArgumentException( "An error has occurred!!!" ) );
@@ -123,9 +126,10 @@ class JsonResponseHandlerInterceptorTest
     assertNotNull( response.getHeaders() );
     assertNotNull( response.getBody() );
     assertInstanceOf( GenericResponseDto.class, response.getBody() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getCode() );
-    assertNotNull( ((GenericResponseDto)response.getBody()).getHeader().getDetail() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
+    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getCode() );
+    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(),
+      ((GenericResponseDto) response.getBody()).getHeader().getDetail() );
   }
 }

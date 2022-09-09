@@ -174,6 +174,7 @@ public class OfficeController
   @Operation(tags = "Oficinas", summary = "Ping")
   public ResponseEntity<GenericResponseDto<String>> ping()
   {
+    log.debug( "ping" );
     return ResponseEntity.ok( new GenericResponseDto<>( "pong" ) );
   }
 }

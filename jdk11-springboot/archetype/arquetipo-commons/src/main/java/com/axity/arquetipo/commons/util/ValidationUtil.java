@@ -30,9 +30,4 @@ public final class ValidationUtil
     }
   }
 
-  public static void checkRequiredMaxLength( String value, String fieldName, int maxLength )
-  {
-    checkRequired( value, fieldName );
-    checkMaxLength( value, fieldName, maxLength );
-  }
 }

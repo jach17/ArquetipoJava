@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author guillermo.segura@axity.com
  */
 @SpringBootApplication
-public class ApplicationTest
+class ApplicationTest
 {
 
   public static void main( String[] args )
@@ -19,7 +19,8 @@ public class ApplicationTest
   }
 
   @Test
-  void test() {
+  void test()
+  {
     assertTrue( true );
   }
 }
