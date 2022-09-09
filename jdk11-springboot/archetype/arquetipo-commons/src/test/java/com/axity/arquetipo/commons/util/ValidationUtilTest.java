@@ -20,17 +20,10 @@ class ValidationUtilTest
   @Test
   void testCheckMaxLength()
   {
-    assertThrows( ValidationException.class, () -> ValidationUtil.checkMaxLength( null, "data", 10 ) );
-    assertThrows( ValidationException.class, () -> ValidationUtil.checkMaxLength( "", "data", 10 ) );
     assertThrows( ValidationException.class,
       () -> ValidationUtil.checkMaxLength( "Lorem ipsum dolor sit amet", "data", 10 ) );
+    ValidationUtil.checkMaxLength( null, "data", 10 );
+    ValidationUtil.checkMaxLength( "", "data", 10 );
     ValidationUtil.checkMaxLength( "ok", "data", 10 );
   }
-
-  @Test
-  void testCheckRequiredMaxLength()
-  {
-    fail( "Not yet implemented" );
-  }
-
 }

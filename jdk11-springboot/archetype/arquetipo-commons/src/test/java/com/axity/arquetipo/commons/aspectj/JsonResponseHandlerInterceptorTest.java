@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -85,10 +87,11 @@ class JsonResponseHandlerInterceptorTest
     assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(), ((GenericResponseDto) response.getBody()).getHeader().getCode() );
   }
 
-  @Test
-  void testInterceptMethodAdvice_throwsExceptionWithTrace() throws Throwable
+  @ParameterizedTest()
+  @ValueSource(booleans = { true, false })
+  void testInterceptMethodAdvice_throwsExceptionWithTrace( boolean allowTrace ) throws Throwable
   {
-    ReflectionTestUtils.setField( interceptor, "allowTrace", true );
+    ReflectionTestUtils.setField( interceptor, "allowTrace", allowTrace );
 
     var pjp = mock( ProceedingJoinPoint.class );
     when( pjp.toLongString() ).thenReturn( "mocked" );
@@ -104,32 +107,13 @@ class JsonResponseHandlerInterceptorTest
     assertInstanceOf( GenericResponseDto.class, response.getBody() );
     assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
     assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getCode() );
-    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(),
-      ((GenericResponseDto) response.getBody()).getHeader().getDetail() );
+    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(), ((GenericResponseDto) response.getBody()).getHeader().getCode() );
+
+    if( allowTrace )
+    {
+      assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getDetail() );
+    }
+
   }
 
-  @Test
-  void testInterceptMethodAdvice_throwsExceptionWithouTrace() throws Throwable
-  {
-    ReflectionTestUtils.setField( interceptor, "allowTrace", false );
-
-    var pjp = mock( ProceedingJoinPoint.class );
-    when( pjp.toLongString() ).thenReturn( "mocked" );
-    when( pjp.proceed() ).thenThrow( new IllegalArgumentException( "An error has occurred!!!" ) );
-
-    var result = interceptor.interceptMethodAdvice( pjp );
-
-    assertNotNull( result );
-    assertInstanceOf( ResponseEntity.class, result );
-    var response = (ResponseEntity) result;
-    assertNotNull( response.getHeaders() );
-    assertNotNull( response.getBody() );
-    assertInstanceOf( GenericResponseDto.class, response.getBody() );
-    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader() );
-    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getMessage() );
-    assertNotNull( ((GenericResponseDto) response.getBody()).getHeader().getCode() );
-    assertEquals( ErrorCode.UNKNOWN_ERROR.getCode(),
-      ((GenericResponseDto) response.getBody()).getHeader().getDetail() );
-  }
 }
