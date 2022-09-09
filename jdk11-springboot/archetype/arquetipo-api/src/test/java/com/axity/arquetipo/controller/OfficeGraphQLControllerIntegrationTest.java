@@ -36,16 +36,59 @@ class OfficeGraphQLControllerIntegrationTest
   @Test
   void testOffices() throws Exception
   {
-    String query = "query {\r\n"
-        + "    offices (query : {\r\n"
-        + "        territory : \"NA\"\r\n"
-        + "    })\r\n"
-        + "    {\r\n"
-        + "        officeCode\r\n"
-        + "        city\r\n"
-        + "        city\r\n"
-        + "        phone\r\n"
-        + "    }\r\n"
+    String query = "query {"
+        + "    offices (query : {"
+        + "        territory : \"NA\""
+        + "    })"
+        + "    {"
+        + "        officeCode"
+        + "        city"
+        + "        city"
+        + "        phone"
+        + "    }"
+        + "}";
+    
+    
+    Gson gson = new GsonBuilder().create();
+    
+    var wrapper = new QueryWrapperDto();
+    wrapper.setQuery( query );
+
+    MvcResult result = mockMvc
+        .perform( MockMvcRequestBuilders.post( "/graphql" )
+          .content( gson.toJson( wrapper ) )
+          .accept( MediaType.APPLICATION_JSON )
+          .contentType( MediaType.APPLICATION_JSON ) )
+        .andExpect( status().isOk() )
+        .andExpect(request().asyncStarted())
+        .andReturn();
+    
+    this.mockMvc.perform( asyncDispatch( result ) )
+    .andDo( print() ).andExpect(status().isOk())
+    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+    .andExpect( jsonPath( "$.data" ).isNotEmpty() )
+    .andExpect( jsonPath( "$.data.offices" ).isArray() )
+    .andReturn();
+
+    assertNotNull( result );
+    
+    var content = result.getResponse().getContentAsString();
+    log.info( "--->{}", content );
+  }
+  
+  @Test
+  void testOffices2() throws Exception
+  {
+    String query = "query {"
+        + "    offices (query : {"
+        + "        territory : \"NA\""
+        + "    } page : 0 size: 2)"
+        + "    {"
+        + "        officeCode"
+        + "        city"
+        + "        city"
+        + "        phone"
+        + "    }"
         + "}";
     
     

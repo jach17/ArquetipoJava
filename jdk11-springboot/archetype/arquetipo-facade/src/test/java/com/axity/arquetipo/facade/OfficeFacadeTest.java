@@ -1,5 +1,6 @@
 package com.axity.arquetipo.facade;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -136,4 +137,9 @@ class OfficeFacadeTest
     assertNotNull( result );
   }
 
+  @Test
+  void testProcessMessage()
+  {
+    assertDoesNotThrow( () -> this.officeFacade.processMessage( "Lorem impsum dolor sit amet" ) );
+  }
 }

@@ -1,5 +1,6 @@
 package com.axity.arquetipo.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.axity.arquetipo.commons.dto.OfficeDto;
 import com.axity.arquetipo.commons.enums.ErrorCode;
 import com.axity.arquetipo.commons.exception.BusinessException;
+import com.axity.arquetipo.commons.request.MessageDto;
 import com.axity.arquetipo.commons.request.PaginatedRequestDto;
 import com.axity.arquetipo.commons.request.graphql.OfficeQueryDto;
 import com.axity.arquetipo.commons.response.graphql.OfficeGraphQLDto;
+import com.google.gson.GsonBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +40,7 @@ class OfficeServiceTest
 {
   @Autowired
   private OfficeService officeService;
-  
+
   @MockBean
   private KafkaTemplate<Object, Object> template;
 
@@ -102,7 +106,7 @@ class OfficeServiceTest
 
     var response = this.officeService.create( dto );
     log.info( response.toString() );
-    
+
     assertNotNull( response );
     assertEquals( 0, response.getHeader().getCode() );
     assertNotNull( response.getBody() );
@@ -267,5 +271,41 @@ class OfficeServiceTest
     var list = this.officeService.findGraphQL( query, null );
     assertNotNull( list );
     assertFalse( list.isEmpty() );
+  }
+
+  @ParameterizedTest()
+  @CsvSource({ "NA,0,1", "EMEA,0,1", "NA,0,0" })
+  void testFindGraphQL_pageable( String territory, int page, int size )
+  {
+    var query = new OfficeQueryDto();
+    query.setQuery( new OfficeGraphQLDto() );
+    query.getQuery().setTerritory( territory );
+    query.setPage( page );
+    query.setSize( size );
+    var list = this.officeService.findGraphQL( query, null );
+    assertNotNull( list );
+    assertFalse( list.isEmpty() );
+  }
+
+  @Test
+  void testProcessMessage()
+  {
+
+    var dto = new OfficeDto();
+    dto.setCountry( "México" );
+    dto.setTerritory( "LATAM" );
+    dto.setCity( "CDMX" );
+    dto.setAddressLine1( "Adress 1" );
+    dto.setAddressLine2( "Adress 2" );
+    dto.setState( "CDMX" );
+    dto.setPhone( "+52 55 5555 5555" );
+    dto.setPostalCode( "11200" );
+
+    var gson = new GsonBuilder().create();
+    var message = new MessageDto();
+    message.setMessage( "Lorem ipsum dolor sit amet" );
+    message.setJson( gson.toJson( dto ) );
+
+    assertDoesNotThrow( () -> this.officeService.processMessage( gson.toJson( message ) ) );
   }
 }
