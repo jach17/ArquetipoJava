@@ -13,8 +13,8 @@ Yeoman es una herramienta de código abierto para aplicaciones y combina varias 
 
 ## Proyectos
 
-1. **Java 11 Spring Boot** Proyecto generado para la configuración automática de microservicios con Java y Spring Framework empleando la interación de SpringBoot.
-   **Tecnologías**
+1. **Java 11 Spring Boot** Proyecto generado para la configuración automática de microservicios con Java y Spring Framework empleando la interación de SpringBoot.<br>
+   **Tecnologías:**
     - **Swagger (OpenAPI):** Es un estándar para la descripción de las interfaces de programación (API) de los servicios Rest.
     - **Redis:** Redis almacena estructuras de datos de valores de clave en memoria.
     - **Kafka:** Permite la comunicación entre servicios diferentes.
