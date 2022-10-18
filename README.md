@@ -26,6 +26,7 @@ Yeoman es una herramienta de código abierto para aplicaciones y combina varias 
 
 **Hugo Meraz**  
 *[hugo.meraz@axity.com]*  
+
 **Guillermo Segura Olivera**  
 *[guillermo.segura@axity.com]*  
 
