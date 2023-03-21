@@ -9,7 +9,7 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^3.1.0"
+    "yeoman-generator": "^5.8.0"
   },
   "author": "Guillermo Segura Olivera",
   "license": "MIT"
