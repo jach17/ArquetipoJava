@@ -17,8 +17,7 @@ Yeoman es una herramienta de código abierto para aplicaciones y combina varias 
    **Tecnologías:**
     - **Swagger (OpenAPI):** Es un estándar para la descripción de las interfaces de programación (API) de los servicios Rest.
     - **Redis:** Redis almacena estructuras de datos de valores de clave en memoria.
-    - **Kafka:** Permite la comunicación entre servicios diferentes.
-    - **GraphQL:** Es un lenguaje de consulta y un tiempo de ejecución del servidor para las interfaces de programación de aplicaciones (API); su función es brindar a los clientes exactamente los datos que solicitan y nada más.
+    - **Lombok:** Lombok es una librería que genera ese código repetitivo por nosotros a nivel del archivo compilado.
     -  **SpringData + JPA** Interface de Spring Data y JPA para acceder a la capa de persistencia.
     -  **SpringData + QueryDSL** Interface de integración de Spring Data y QueryDSL para crear queries con predicados.
 
