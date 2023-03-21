@@ -130,6 +130,30 @@ module.exports = class extends Generator {
                         openDelimiter: '[',
                         closeDelimiter: ']'
                     });
+            if (this.props.redis) {
+                this.fs.copyTpl(
+                    this.templatePath('controllers/RedisConfiguration.java'),
+                    this.destinationPath(`${this.props.name.toLowerCase()}-service/${this.props.company.toLowerCase()}.${this.props.name.toLowerCase()}-api/src/main/java/com/${this.props.company.toLowerCase()}/${this.props.name.toLowerCase()}/config/RedisConfiguration.java`),
+                    {
+                        name: controller.name,
+                        apiName: controller.apiName,
+                        namelower: this.props.name.toLowerCase(),
+                        nameupper: this.props.name.toUpperCase(),
+                        namecamel: controller.nameCamel,
+                        entityLower: controller.entityLower,
+                        port: this.props.port,
+                        company: this.props.company,
+                        companylower: this.props.company.toLowerCase(),
+                        lombok: this.props.lombok,
+                        redis: this.props.redis,
+                        username: this.props.username,
+                        version: this.props.version,
+                    },
+                    {
+                        openDelimiter: '[',
+                        closeDelimiter: ']'
+                    });
+            }
 
             /* Facade */
             this.fs.copyTpl(
@@ -247,25 +271,50 @@ module.exports = class extends Generator {
                             openDelimiter: '[',
                             closeDelimiter: ']'
                         });
-        /** Persistence */
-        this.fs.copyTpl(
-            this.templatePath('persistence/Persistence.java'),
-            this.destinationPath(`${this.props.name.toLowerCase()}-service/${this.props.company.toLowerCase()}.${this.props.name.toLowerCase()}-persistence/src/main/java/com/${this.props.company.toLowerCase()}/${this.props.name.toLowerCase()}/persistence/${controller.name}Persistence.java`),
-            {
-                name: controller.name,
-                namelower: this.props.name.toLowerCase(),
-                nameupper: this.props.name.toUpperCase(),
-                namecamel: controller.nameCamel,
-                port: this.props.port,
-                company: this.props.company,
-                companylower: this.props.company.toLowerCase(),
-                username: this.props.username,
-                version: this.props.version,
-            },
-            {
-                openDelimiter: '[',
-                closeDelimiter: ']'
-            });
+            /** Persistence */
+            this.fs.copyTpl(
+                this.templatePath('persistence/Persistence.java'),
+                this.destinationPath(`${this.props.name.toLowerCase()}-service/${this.props.company.toLowerCase()}.${this.props.name.toLowerCase()}-persistence/src/main/java/com/${this.props.company.toLowerCase()}/${this.props.name.toLowerCase()}/persistence/${controller.name}Persistence.java`),
+                {
+                    name: controller.name,
+                    namelower: this.props.name.toLowerCase(),
+                    nameupper: this.props.name.toUpperCase(),
+                    namecamel: controller.nameCamel,
+                    port: this.props.port,
+                    company: this.props.company,
+                    companylower: this.props.company.toLowerCase(),
+                    username: this.props.username,
+                    version: this.props.version,
+                },
+                {
+                    openDelimiter: '[',
+                    closeDelimiter: ']'
+                });
+
+            if (this.props.redis) {
+                this.fs.copyTpl(
+                    this.templatePath('persistence/StringRedisRepository.java'),
+                    this.destinationPath(`${this.props.name.toLowerCase()}-service/${this.props.company.toLowerCase()}.${this.props.name.toLowerCase()}-persistence/src/main/java/com/${this.props.company.toLowerCase()}/${this.props.name.toLowerCase()}/persistence/StringRedisRepository.java`),
+                    {
+                        name: controller.name,
+                        apiName: controller.apiName,
+                        namelower: this.props.name.toLowerCase(),
+                        nameupper: this.props.name.toUpperCase(),
+                        namecamel: controller.nameCamel,
+                        entityLower: controller.entityLower,
+                        port: this.props.port,
+                        company: this.props.company,
+                        companylower: this.props.company.toLowerCase(),
+                        lombok: this.props.lombok,
+                        redis: this.props.redis,
+                        username: this.props.username,
+                        version: this.props.version,
+                    },
+                    {
+                        openDelimiter: '[',
+                        closeDelimiter: ']'
+                    });
+            }
         /** Model */
 
         var temporal = false;

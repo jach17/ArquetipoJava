@@ -27,7 +27,7 @@ import com.[%= companylower %].[%= namelower %].commons.request.PaginatedRequest
 import com.[%= companylower %].[%= namelower %].commons.response.GenericResponseDto;
 import com.[%= companylower %].[%= namelower %].commons.response.PaginatedResponseDto;
 import com.[%= companylower %].[%= namelower %].facade.[%= namecamel %]Facade;
-[% if (redis) { %]import com.[%= companylower %].[%= namelower %].persistence.redis.StringRedisRepository;[% } %]
+[% if (redis) { %]import com.[%= companylower %].[%= namelower %].persistence.StringRedisRepository;[% } %]
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

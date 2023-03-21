@@ -21,7 +21,7 @@ import com.[%= companylower %].[%= namelower %].commons.request.PaginatedRequest
 import com.[%= companylower %].[%= namelower %].commons.response.GenericResponseDto;
 import com.[%= companylower %].[%= namelower %].commons.response.PaginatedResponseDto;
 import com.[%= companylower %].[%= namelower %].facade.[%= namecamel %]Facade;
-[% if (redis) { %]import com.[%= companylower %].[%= namelower %].persistence.redis.StringRedisRepository;[% } %]
+[% if (redis) { %]import com.[%= companylower %].[%= namelower %].persistence.StringRedisRepository;[% } %]
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -79,7 +79,7 @@ public class [%= namecamel %]Controller
   Integer id )
   {
     [% if (redis) { %]
-    String key = this.get[%= namecamel %]Key( [%= entityLower %]Id );
+    String key = this.get[%= namecamel %]Key( id );
 
     Gson gson = new GsonBuilder().create();
     GenericResponseDto<[%= namecamel %]Dto> result = null;
@@ -93,7 +93,7 @@ public class [%= namecamel %]Controller
     }
     else
     {
-      result = this.[%= entityLower %]Facade.find( [%= entityLower %]Id );
+      result = this.[%= entityLower %]Facade.find( id );
 
       String json = gson.toJson( result );
       this.redis.add( key, json );
@@ -167,7 +167,7 @@ public class [%= namecamel %]Controller
 
     [% if (redis) { %]if( result.getBody() )
     {
-      this.redis.delete( this.get[%= namecamel %]Key( [%= entityLower %]Id ) );
+      this.redis.delete( this.get[%= namecamel %]Key( id ) );
     }[% } %]
     return ResponseEntity.ok( result );
   }
